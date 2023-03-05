@@ -19,11 +19,12 @@ def parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c):
                                 for nu_i in nu:  
                                     for eps_i in eps:  
                                         for rho_i in rho:  
-                                            for a_i in a:  
-                                                for b_i in b:
-                                                    for c_i in c:
-                                                        parameter_matrix[k,:]=[h_i,tol_i,t1_i,t2_i,nx_i,omega_i,mu_i,nu_i,eps_i,rho_i,a_i,b_i,c_i]
-                                                        k=k+1
+                                            for kappa_i in kappa:
+                                                for a_i in a:  
+                                                    for b_i in b:
+                                                        for c_i in c:
+                                                            parameter_matrix[k,:]=[h_i,tol_i,t1_i,t2_i,nx_i,omega_i,mu_i,nu_i,eps_i,rho_i,kappa_i,a_i,b_i,c_i]
+                                                            k=k+1
     return [parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]
 
 """

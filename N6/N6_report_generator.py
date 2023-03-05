@@ -12,7 +12,7 @@ from datetime import datetime
 import matplotlib.animation as anim
 from matplotlib.animation import FuncAnimation
 
-def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N2,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,perc_acc_matrix,vn_linear_fitting,machine_number,internal_export_path):
+def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N2,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,machine_number,internal_export_path):
     """Static Plotting (Exported to Word Document)"""
     report=docx.Document()
     report.add_heading(f'Results from N2 Run #{new_count_number}-{machine_number}',0)
@@ -29,7 +29,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
     report.add_paragraph(f'Method of Lines version: {vn_method_of_lines}')
     report.add_paragraph(f'Residual-Jacobian Calculator version: {vn_RJ}')
     report.add_paragraph(f'Report Generator version: {vn_report_generator}')
-    report.add_paragraph(f'Linear Approximator version: {vn_linear_fitting}')
+    #report.add_paragraph(f'Linear Approximator version: {vn_linear_fitting}')
     style=report.styles['Normal']
     font=style.font
     font.name='Arial'
@@ -52,17 +52,18 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         x=c_set[pc_i][8] #Grab the position-vector for this parameter set for plotting
         break_paragraph=report.add_paragraph('___________')
         break_paragraph.runs[0].add_break(docx.enum.text.WD_BREAK.PAGE)
-        report.add_heading('Parameter Set %i'%pc_i,1)
-        para1=report.add_paragraph(f'Step-size (h) : {parameter_matrix[pc_i,0]}     ')
-        para1.add_run(f'Initial time (t1) : {parameter_matrix[pc_i,2]}     ')
-        para1.add_run(f'Final time (t2) : {parameter_matrix[pc_i,3]}     ')
-        para1.add_run(f'Mesh size (nx) : {parameter_matrix[pc_i,4]}')
-        para2=report.add_paragraph(f'Dimensionless ratio of diffusivity (gamma) : {parameter_matrix[pc_i,5]}     ')
-        para2.add_run(f'Dimensionless ratio of potential (beta): {parameter_matrix[pc_i,6]}')
-        para3=report.add_paragraph(f'Dimensionless forward rate constant (F): {parameter_matrix[pc_i,7]}     ')
-        para3.add_run(f'Dimensionless reverse rate constant (R): {parameter_matrix[pc_i,8]}')
-        para4=report.add_paragraph(f'Hill coeffecient (n): {parameter_matrix[pc_i,9]}     ')
-        para4.add_run(f'Tolerance: {parameter_matrix[pc_i,1]}')
+        """Will add these back once code is working"""
+        # report.add_heading('Parameter Set %i'%pc_i,1)
+        # para1=report.add_paragraph(f'Step-size (h) : {parameter_matrix[pc_i,0]}     ')
+        # para1.add_run(f'Initial time (t1) : {parameter_matrix[pc_i,2]}     ')
+        # para1.add_run(f'Final time (t2) : {parameter_matrix[pc_i,3]}     ')
+        # para1.add_run(f'Mesh size (nx) : {parameter_matrix[pc_i,4]}')
+        # para2=report.add_paragraph(f'Dimensionless ratio of diffusivity (gamma) : {parameter_matrix[pc_i,5]}     ')
+        # para2.add_run(f'Dimensionless ratio of potential (beta): {parameter_matrix[pc_i,6]}')
+        # para3=report.add_paragraph(f'Dimensionless forward rate constant (F): {parameter_matrix[pc_i,7]}     ')
+        # para3.add_run(f'Dimensionless reverse rate constant (R): {parameter_matrix[pc_i,8]}')
+        # para4=report.add_paragraph(f'Hill coeffecient (n): {parameter_matrix[pc_i,9]}     ')
+        # para4.add_run(f'Tolerance: {parameter_matrix[pc_i,1]}')
         
         # %%Find relelvant maximums and minimums
         upper_1 = np.amax(cu)*1.1 #Upper bound on Unbound Concentration
@@ -79,10 +80,10 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Unbound
         #tindex_u=np.array([0,5,10,25,50,75,100,125,150,200,250]) for masnual control over timepoints plotted
         tp_u=10 #number of time points to plot
-        """
+
         #Linear discretization of plotted timepionts
-        #space_u=int((nt-1)/tp_u) #Linear discreitzation of timepoints
-        #tindex_b=np.arange(0,nt,space_u) #Linear discreitization of timepoints
+        space_u=int((nt-1)/tp_u) #Linear discreitzation of timepoints
+        tindex_u=np.arange(0,nt,space_u) #Linear discreitization of timepoints
         for i_u in tindex_u:
             cc_u=cu[:,i_u]
             ti_u=round(t[i_u],5)
@@ -98,6 +99,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_u=cu[:,i_u]
             ti_u=round(t[i_u],5)
             plt.plot(x,cc_u,label='t={}'.format(ti_u))
+        """
         
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_1)
@@ -115,10 +117,10 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         
         # %%Bound
         tp_b=10 #number of time points to plot
-        """
+
         #Linear discretization of plotted timepionts
-        #space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
-        #tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
+        space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
+        tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
         for i_b in tindex_b:
             cc_b=cb[:,i_b]
             ti_b=round(t[i_b],5)
@@ -135,7 +137,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_b=cb[:,i_b]
             ti_b=round(t[i_b],5)
             plt.plot(x,cc_b,label='t={}'.format(ti_b))
-            
+        """    
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_4)
         plt.xlabel('Position',fontsize=14)
@@ -193,23 +195,23 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         pic4=pics_paragraph2.add_run()
         pic4.add_picture(dCunbound_filename_full, width=docx.shared.Inches(3))
         """
-        # %%Total NP Average Concetration Overtime
-        plt.figure(7*pc_i+4)
-        plt.plot(t,taverage_conc_overtime)
-        plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        plt.ylim(bottom=0,top=upper_5)
-        plt.xlabel('Time',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Average Dimensionless Total Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        avgtotalNP_filename_partial=f'Avg totolNPplot{pc_i}.png'
-        avgtotalNP_filename_full=os.path.join(internal_export_path,avgtotalNP_filename_partial)
-        plt.savefig(avgtotalNP_filename_full)
-        plt.close()
-        pic4=pics_paragraph2.add_run()
-        pic4.add_picture(avgtotalNP_filename_full, width=docx.shared.Inches(3))
+        # # %%Total NP Average Concetration Overtime
+        # plt.figure(7*pc_i+4)
+        # plt.plot(t,taverage_conc_overtime)
+        # plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # plt.ylim(bottom=0,top=upper_5)
+        # plt.xlabel('Time',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Average Dimensionless Total Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # avgtotalNP_filename_partial=f'Avg totolNPplot{pc_i}.png'
+        # avgtotalNP_filename_full=os.path.join(internal_export_path,avgtotalNP_filename_partial)
+        # plt.savefig(avgtotalNP_filename_full)
+        # plt.close()
+        # pic4=pics_paragraph2.add_run()
+        # pic4.add_picture(avgtotalNP_filename_full, width=docx.shared.Inches(3))
         
         """# %%Total NP Change in Concentration vs Concentration
         plt.figure(7*pc_i+5)
@@ -342,21 +344,21 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         pic8=pics_paragraph3.add_run() #Added when log plot off
         pic8.add_picture(log_filename_full,width=docx.shared.Inches(3))
         
-        # %% Add Table for Fit
-        perc_acc_table=perc_acc_matrix[pc_i][0]
-        [table_rows,table_columns]=perc_acc_table.shape
-        table1=report.add_table(rows=table_rows+1, cols=table_columns)
-        row=table1.rows[0]
-        row.cells[0].text='Percent Accumulated'
-        row.cells[1].text='Time for Model'
-        row.cells[2].text='Time for Approximation'
-        row.cells[3].text='Percent Error'
-        i_v = np.arange(0,table_rows,1) #index for rows of percent accumulation table
-        j_v = np.arange(0,table_columns,1) #inde for columns of percent accumulation table
-        for i in i_v:
-            for j in j_v:
-                cell=table1.cell(i+1,j)
-                cell.text=str(perc_acc_table[i,j])
+        # # %% Add Table for Fit
+        # perc_acc_table=perc_acc_matrix[pc_i][0]
+        # [table_rows,table_columns]=perc_acc_table.shape
+        # table1=report.add_table(rows=table_rows+1, cols=table_columns)
+        # row=table1.rows[0]
+        # row.cells[0].text='Percent Accumulated'
+        # row.cells[1].text='Time for Model'
+        # row.cells[2].text='Time for Approximation'
+        # row.cells[3].text='Percent Error'
+        # i_v = np.arange(0,table_rows,1) #index for rows of percent accumulation table
+        # j_v = np.arange(0,table_columns,1) #inde for columns of percent accumulation table
+        # for i in i_v:
+        #     for j in j_v:
+        #         cell=table1.cell(i+1,j)
+        #         cell.text=str(perc_acc_table[i,j])
         
         # %%
     return report

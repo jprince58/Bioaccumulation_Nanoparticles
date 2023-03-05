@@ -53,16 +53,16 @@ h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([10]) #Final Time
-nx=np.array([200]) #Mesh size
+nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([0]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([5]) #Define dimensionless and porosity adjusted maximum binding site density
-eps=np.array([0.01]) #Define dimensionless minimum interstital porosity
-rho=np.array([0.01]) #Define dimensionless minimum traditional porosity
-kappa=np.array([0.01]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([0.01]) #Define shape paramter for binding site profile
-b=np.array([0.01]) #Define shape paramter for intersitital porosity profile
-c=np.array([0.01]) #Define shape paramter for traditional proosity profile
+mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
+eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
+rho=np.array([0.2]) #Define dimensionless minimum traditional porosity
+kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([1000]) #Define shape paramter for binding site profile
+b=np.array([1000]) #Define shape paramter for intersitital porosity profile
+c=np.array([1000]) #Define shape paramter for traditional proosity profile
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
@@ -76,10 +76,12 @@ ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if 
 vn_csv_generator = csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_path,new_count_number,machine_number)
 
 # %% Fit model to first order approximation, plot approximation, and determine fit of approximation
-[perc_acc_matrix,vn_linear_fitting]=linear_fit(c_set,parameter_combos_count,parameter_matrix,internal_export_path)
+#[perc_acc_matrix,vn_linear_fitting]=linear_fit(c_set,parameter_combos_count,parameter_matrix,internal_export_path)
 
 # %% Report Generator: Exports Plots as Word Document to Seperate Directory (see file N2_report_generator.py)
-report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,perc_acc_matrix,vn_linear_fitting,machine_number,internal_export_path)
+#report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,perc_acc_matrix,vn_linear_fitting,machine_number,internal_export_path)
+report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,machine_number,internal_export_path)
+
 
 # %% Stop Timer
 #End timer
@@ -104,5 +106,5 @@ Version 0.2
 
 The code runs again and exports the report.
 
-
+"""
 
