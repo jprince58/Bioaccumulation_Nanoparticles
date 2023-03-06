@@ -15,7 +15,7 @@ from matplotlib.animation import FuncAnimation
 def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N2,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,machine_number,internal_export_path):
     """Static Plotting (Exported to Word Document)"""
     report=docx.Document()
-    report.add_heading(f'Results from N2 Run #{new_count_number}-{machine_number}',0)
+    report.add_heading(f'Results from N6 Run #{new_count_number}-{machine_number}',0)
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     date_time_line=report.add_paragraph('Date and Time Report Generated:  ')
@@ -53,17 +53,22 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         break_paragraph=report.add_paragraph('___________')
         break_paragraph.runs[0].add_break(docx.enum.text.WD_BREAK.PAGE)
         """Will add these back once code is working"""
-        # report.add_heading('Parameter Set %i'%pc_i,1)
-        # para1=report.add_paragraph(f'Step-size (h) : {parameter_matrix[pc_i,0]}     ')
-        # para1.add_run(f'Initial time (t1) : {parameter_matrix[pc_i,2]}     ')
-        # para1.add_run(f'Final time (t2) : {parameter_matrix[pc_i,3]}     ')
-        # para1.add_run(f'Mesh size (nx) : {parameter_matrix[pc_i,4]}')
-        # para2=report.add_paragraph(f'Dimensionless ratio of diffusivity (gamma) : {parameter_matrix[pc_i,5]}     ')
-        # para2.add_run(f'Dimensionless ratio of potential (beta): {parameter_matrix[pc_i,6]}')
-        # para3=report.add_paragraph(f'Dimensionless forward rate constant (F): {parameter_matrix[pc_i,7]}     ')
-        # para3.add_run(f'Dimensionless reverse rate constant (R): {parameter_matrix[pc_i,8]}')
-        # para4=report.add_paragraph(f'Hill coeffecient (n): {parameter_matrix[pc_i,9]}     ')
-        # para4.add_run(f'Tolerance: {parameter_matrix[pc_i,1]}')
+        report.add_heading('Parameter Set %i'%pc_i,1)
+        para1=report.add_paragraph(f'Step-size (h) : {parameter_matrix[pc_i,0]}     ')
+        para1.add_run(f'Initial time (t1) : {parameter_matrix[pc_i,2]}     ')
+        para1.add_run(f'Final time (t2) : {parameter_matrix[pc_i,3]}     ')
+        para1.add_run(f'Mesh size (nx) : {parameter_matrix[pc_i,4]}')
+        para2=report.add_paragraph(f'Effective diffusivity (omega) : {parameter_matrix[pc_i,5]}     ')
+        para2.add_run(f'Dimensionless attachment rate constant (mu): {parameter_matrix[pc_i,6]}')
+        para3=report.add_paragraph(f'Dimensionless binding site density (nu): {parameter_matrix[pc_i,7]}     ')
+        para3.add_run(f'Dimensionless minimum interstitial porosity (epsilon): {parameter_matrix[pc_i,8]}')
+        para4=report.add_paragraph(f'Dimensionless minimum total porosity (rho): {parameter_matrix[pc_i,9]}     ')
+        para4.add_run(f'Tolerance: {parameter_matrix[pc_i,1]}')
+        para5=report.add_paragraph(f'Dimensionless equilibrium constant (kappa): {parameter_matrix[pc_i,10]}     ')
+        para5.add_run(f'Binding Site Profile Shape Parameter (a): {parameter_matrix[pc_i,11]}')
+        para5=report.add_paragraph(f'Interstitial Porosity Profile Shape Parameter (b): {parameter_matrix[pc_i,12]}     ')
+        para5.add_run(f'Total Porosity Profile Shape Parameter (c): {parameter_matrix[pc_i,13]}')
+      
         
         # %%Find relelvant maximums and minimums
         upper_1 = np.amax(cu)*1.1 #Upper bound on Unbound Concentration
@@ -80,7 +85,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Unbound
         #tindex_u=np.array([0,5,10,25,50,75,100,125,150,200,250]) for masnual control over timepoints plotted
         tp_u=10 #number of time points to plot
-
+        """
         #Linear discretization of plotted timepionts
         space_u=int((nt-1)/tp_u) #Linear discreitzation of timepoints
         tindex_u=np.arange(0,nt,space_u) #Linear discreitization of timepoints
@@ -99,7 +104,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_u=cu[:,i_u]
             ti_u=round(t[i_u],5)
             plt.plot(x,cc_u,label='t={}'.format(ti_u))
-        """
+
         
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_1)
@@ -117,7 +122,8 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         
         # %%Bound
         tp_b=10 #number of time points to plot
-
+        
+        """
         #Linear discretization of plotted timepionts
         space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
         tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
@@ -137,7 +143,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_b=cb[:,i_b]
             ti_b=round(t[i_b],5)
             plt.plot(x,cc_b,label='t={}'.format(ti_b))
-        """    
+ 
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_4)
         plt.xlabel('Position',fontsize=14)

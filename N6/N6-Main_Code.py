@@ -3,8 +3,8 @@
 # -*- coding: utf-8 -*-
 
 # %% Code Version Numbers
-vn_N6=0.2 #See meta-data at bottom for details
-vn_Main_Code=0.2 #See meta-data fro details
+vn_N6=1.0 #See meta-data at bottom for details
+vn_Main_Code=1.0 #See meta-data fro details
 
 # %% Current Machine Running Code with neccesary adjustments
 """Machine code feature is commented out as we aren't running the code on multiple machines for now, just my local machine Replaced with simple direct_export_path and internal_export_path variables"""
@@ -60,9 +60,9 @@ nu=np.array([1]) #Define dimensionless and porosity adjusted maximum binding sit
 eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
 rho=np.array([0.2]) #Define dimensionless minimum traditional porosity
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([1000]) #Define shape paramter for binding site profile
-b=np.array([1000]) #Define shape paramter for intersitital porosity profile
-c=np.array([1000]) #Define shape paramter for traditional proosity profile
+a=np.array([10]) #Define shape paramter for binding site profile
+b=np.array([10]) #Define shape paramter for intersitital porosity profile
+c=np.array([10]) #Define shape paramter for traditional proosity profile
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
