@@ -60,9 +60,9 @@ nu=np.array([1]) #Define dimensionless and porosity adjusted maximum binding sit
 eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
 rho=np.array([0.2]) #Define dimensionless minimum traditional porosity
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([10]) #Define shape paramter for binding site profile
-b=np.array([10]) #Define shape paramter for intersitital porosity profile
-c=np.array([10]) #Define shape paramter for traditional proosity profile
+a=np.array([1]) #Define shape paramter for binding site profile
+b=np.array([1]) #Define shape paramter for intersitital porosity profile
+c=np.array([1]) #Define shape paramter for traditional proosity profile
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
