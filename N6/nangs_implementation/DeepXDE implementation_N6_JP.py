@@ -3,7 +3,10 @@ import deepxde as dde
 import numpy as np
 # Backend tensorflow.compat.v1 or tensorflow
 from deepxde.backend import tf
-
+# Backend pytorch
+# import torch
+# Backend paddle
+# import paddle
 
 
 def pde(x, y):
@@ -22,6 +25,18 @@ def pde(x, y):
             + 63 * tf.sin(8 * x[:, 0:1]) / 8
         )
     )
+    # Backend pytorch
+    # return (
+    #     dy_t
+    #     - d * dy_xx
+    #     - torch.exp(-x[:, 1:])
+    #     * (3 * torch.sin(2 * x[:, 0:1]) / 2
+    #         + 8 * torch.sin(3 * x[:, 0:1]) / 3
+    #         + 15 * torch.sin(4 * x[:, 0:1]) / 4
+    #         + 63 * torch.sin(8 * x[:, 0:1]) / 8
+    #     )
+    # )
+
 
 def func(x):
     return np.exp(-x[:, 1:]) * (
@@ -31,6 +46,7 @@ def func(x):
         + np.sin(4 * x[:, 0:1]) / 4
         + np.sin(8 * x[:, 0:1]) / 8
     )
+
 
 geom = dde.geometry.Interval(-np.pi, np.pi)
 timedomain = dde.geometry.TimeDomain(0, 1)
@@ -55,6 +71,16 @@ def output_transform(x, y):
         + tf.sin(4 * x[:, 0:1]) / 4
         + tf.sin(8 * x[:, 0:1]) / 8
     )
+# Backend pytorch
+# def output_transform(x, y):
+#     return (
+#         x[:, 1:2] * (np.pi ** 2 - x[:, 0:1] ** 2) * y
+#         + torch.sin(x[:, 0:1])
+#         + torch.sin(2 * x[:, 0:1]) / 2
+#         + torch.sin(3 * x[:, 0:1]) / 3
+#         + torch.sin(4 * x[:, 0:1]) / 4
+#         + torch.sin(8 * x[:, 0:1]) / 8
+#     )
 
 net.apply_output_transform(output_transform)
 

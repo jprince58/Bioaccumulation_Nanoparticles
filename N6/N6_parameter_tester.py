@@ -27,64 +27,57 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         a=parameter_matrix[i,11]  #Define shape paramter for binding site profile  for this iteration
         b=parameter_matrix[i,12]  #Define shape paramter for intersitital porosity profile  for this iteration
         c=parameter_matrix[i,13]  #Define shape paramter for traditional proosity profile  for this iteration
+        Kp=parameter_matrix[i,14] #define partition coeffecient for this iteration
         
         #Calculate internal paramters to model
         x=np.linspace(0,1,nx+1) #Define x (note, if x doesn't range from 0 to 1, should edit this)
-        c_set[i][8]=x #Pass along x-vector for this parameter set for plotting
+        c_set[i][0]=x #Pass along x-vector for this parameter set for plotting
         t=np.arange(t1,t2+h,h) #Define t
-        c_set[i][6]=t #Pass along t-vector for this parameter set for plotting
+        c_set[i][1]=t #Pass along t-vector for this parameter set for plotting
         ny=2*nx #Solution vector size
         nt=len(t) #Define the number of timepoints
-        c_set[i][7]=nt #Pass along number of time-points used for this parameter set for plotting
+        c_set[i][2]=nt #Pass along number of time-points used for this parameter set for plotting
         y=np.zeros((ny+2,nt)) #Initialize y
         y=y+10**(-8) #Make starting values not exactly equal to zero (divide by zero erros pop up)
         y[ny,:]=(1+rho)
-        p=[omega, mu, nu, eps, rho, kappa, a, b, c] #dimensionless parameter matrix
+        p=[omega, mu, nu, eps, rho, kappa, a, b, c, Kp] #dimensionless parameter matrix
 
         #Run calculation for parameters of interest
         [c,whoops,vn_method_of_lines,vn_RJ]=method_of_lines(t,x,y,h,p,tol) #Find the concntration profiles in space and time using Method of Lines (MOL)
         print('you whoopsed {} many times'.format(whoops))
         
         #Unpack the data
-        cb=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
-        cu=np.zeros((nx+1,nt))
+        cm=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
+        ca=np.zeros((nx+1,nt))
+        ct=np.zeros((nx+1,nt))
         xindex=np.arange(0,nx+1)
         for x_i in xindex:
             j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
             k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
-            cu[x_i,:]=c[j,:]
-            cb[x_i,:]=c[k,:]
-        c_set[i][0]=cb
-        c_set[i][1]=cu
+            cm[x_i,:]=c[j,:]
+            ca[x_i,:]=c[k,:]
+            ct[x_i,:]=Kp*c[j,:]+c[k,:]
+            """This is for calculating steady-state later"""
+            # j_guess=2*x_i
+            # l_guess=2*x_i+1
+            # yss_guess[j_guess]=c[j,nt-1]
+            # yss_guess[l_guess]=c[l,nt-1]
+        c_set[i][3]=cm
+        c_set[i][4]=ca
+        c_set[i][5]=ct
     
-        #Find Average Unbound Concentration Overtime
-        average_conc_overtime=np.zeros(nt)
-        t2index=np.arange(0,nt)
-        for t2_i in t2index:
-            average_conc_overtime[t2_i]=np.average(cu[:,t2_i])
-        c_set[i][2]=average_conc_overtime
-        
-        #Find Change in Concentration overtime
-        change_in_concentration=np.zeros(nt)
-        t3index=t2index[:-1].copy()
-        for t3_i in t3index:
-            change_in_concentration[t3_i]=(average_conc_overtime[t3_i+1]-average_conc_overtime[t3_i])/h
-        c_set[i][3]=change_in_concentration
-        
-        """Commented out while getting solver to work"""
-        # #Find Average total NP concentration Overtime
-        # taverage_conc_overtime=np.zeros(nt)
-        # t4index=np.arange(0,nt)
-        # for t4_i in t4index:
-        #     taverage_conc_overtime[t4_i]=np.average(Kp*cu[:,t4_i])+np.average(cb[:,t4_i])
-        # c_set[i][4]=taverage_conc_overtime
-        
-        # #Find Change in Total NP Concentration overtime
-        # tchange_in_concentration=np.zeros(nt)
-        # t5index=t4index[:-1].copy()
-        # for t5_i in t5index:
-        #     tchange_in_concentration[t5_i]=(taverage_conc_overtime[t5_i+1]-taverage_conc_overtime[t5_i])/h
-        # c_set[i][5]=tchange_in_concentration
+        #Find average NP Concentration Overtime
+        average_mobile_conc_overtime=np.zeros(nt)
+        average_attached_conc_overtime=np.zeros(nt)
+        average_total_conc_overtime=np.zeros(nt)
+        tindex=np.arange(0,nt)
+        for t_i in tindex:
+            average_mobile_conc_overtime[t_i]=np.average(cm[:,t_i])
+            average_attached_conc_overtime[t_i]=np.average(ca[:,t_i])
+            average_total_conc_overtime[t_i]=Kp*average_mobile_conc_overtime[t_i]+average_attached_conc_overtime[t_i]
+        c_set[i][6]=average_mobile_conc_overtime
+        c_set[i][7]=average_attached_conc_overtime
+        c_set[i][8]=average_total_conc_overtime
         
             
     return [c_set,vn_parameter_tester,vn_method_of_lines,vn_RJ]

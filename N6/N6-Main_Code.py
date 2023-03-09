@@ -54,20 +54,21 @@ tol=np.array([10**(-8)])  #Define the tolerance the code will run with when runn
 t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([10]) #Final Time
 nx=np.array([100]) #Mesh size
-omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
+omega=np.array([0.1, 0.5, 1]) #Define effective diffusivity 
+mu=np.array([1, 2.5]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([1,2.5]) #Define dimensionless and porosity adjusted maximum binding site density
 eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
 rho=np.array([0.2]) #Define dimensionless minimum traditional porosity
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([1]) #Define shape paramter for binding site profile
-b=np.array([1]) #Define shape paramter for intersitital porosity profile
-c=np.array([1]) #Define shape paramter for traditional proosity profile
+a=np.array([5]) #Define shape paramter for binding site profile
+b=np.array([5]) #Define shape paramter for intersitital porosity profile
+c=np.array([5]) #Define shape paramter for traditional proosity profile
+Kp=np.array([1]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 # %% Generate Parameter Matrix for Testing
-[parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]=parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c)
+[parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]=parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c,Kp)
                     
 # %% Run parameters through numerical model (Heart of the Code)               
 [c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested

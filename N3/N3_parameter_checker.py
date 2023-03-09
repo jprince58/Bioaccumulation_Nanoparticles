@@ -75,6 +75,7 @@ def parameter_checker(parameter_matrix,fit_coeff): #unpack paramteres and test
         # solve for steady-state starting with final value from time-solution
         [css,whoops2,vn_Newton_Rhapson,vn_RJss]=Newton_Rhapson(x,yss_guess,p,tol) #Find concentration profile at steady-state using Newton-Rhapson method
         print('you were bamboozled on ss calc {} many times'.format(whoops2))
+        
         #Unpack the steady-state data and do basic data analysis
         cu_ss=np.zeros(nx+1)
         cb_ss=np.zeros(nx+1)
