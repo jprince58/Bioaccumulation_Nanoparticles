@@ -11,7 +11,6 @@ from N6_RJ import *
 def Newton_Rhapson(x,y,p,tol):
     yw=y #Initalize the working concentration vector
     whoops=0 #initialize error function
-    yold=yw #update the old y-value
     [R,J,vn_RJss]=RJ(x,yw,p); #Calculate Residual and Jacobian from new y value
     k=0
     while np.linalg.norm(R)>tol :

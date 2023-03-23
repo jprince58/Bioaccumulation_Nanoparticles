@@ -32,8 +32,8 @@ def RJ(x,y,p):
         elif i%2==1 :
             l=int((i-1)/2)
             R[i]=mu*(y[i-1]*(nu*(1-x[l]**a)-y[i])-kappa*y[i])
-            J[i,i]=mu*(nu*(1-x[l]**a)-y[i])
-            J[i,i-1]=-mu*(y[i-1]+kappa)
+            J[i,i]=-mu*(y[i-1]+kappa)
+            J[i,i-1]=mu*(nu*(1-x[l]**a)-y[i])
         elif i==ny:
             l=int(i/2)
             R[i]=y[i]-(1+rho)
