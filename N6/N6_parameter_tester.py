@@ -5,13 +5,14 @@ vn_parameter_tester=1.1
 
 import numpy as np
 from N6_method_of_lines import *
+from N6_Newton_Rhapson import *
 
 
 def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
     
     #Calculate other internal paramters to model
     parameter_combos_count=np.shape(parameter_matrix) [0]
-    c_set = [[0 for i in range(9)] for j in range(parameter_combos_count)]
+    c_set = [[0 for i in range(12)] for j in range(parameter_combos_count)]
     for i in np.arange(0,parameter_combos_count,1): #Begin for loop to test the different model paramters using MOL #Check if you got he upperbound right
         h=parameter_matrix[i,0] #Define timesteps to test
         tol=parameter_matrix[i,1] #Define tolerance to test
@@ -65,6 +66,30 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         c_set[i][3]=cm
         c_set[i][4]=ca
         c_set[i][5]=ct
+        
+        # %% Calcualte Steady-state profile
+        yss_guess=np.ones(ny+2)
+        [css,whoops2,vn_Newton_Rhapson,vn_RJss]=Newton_Rhapson(x,yss_guess,p,tol) #Find concentration profile at steady-state using Newton-Rhapson method
+        print('you were bamboozled on ss calc {} many times'.format(whoops2))
+        
+        #Unpack SS profile and pass along to c_set
+        cm_ss=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
+        ca_ss=np.zeros((nx+1,nt))
+        ct_ss=np.zeros((nx+1,nt))
+        
+        for x_i in xindex:
+            j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
+            k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
+            for x_i in xindex:
+                j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
+                k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
+                cm_ss[x_i]=css[j]
+                ca_ss[x_i]=css[k]
+                ct_ss[x_i]=Kp*css[j]+css[k]
+        c_set[i][9]=cm_ss #Pass along steady-state mobile nanoparticle concentration
+        c_set[i][10]=ca_ss #Pass along steady-state attached nanoparticle concentration
+        c_set[i][11]=ct_ss #Pass along steady-state total nanoparticle concentration
+        
     
         #Find average NP Concentration Overtime
         average_mobile_conc_overtime=np.zeros(nt)

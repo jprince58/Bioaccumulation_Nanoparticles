@@ -6,7 +6,7 @@ vn_method_of_lines=1.1
 import numpy as np
 import scipy as sp
 from scipy import sparse
-from scipy.sparse import linalg
+from scipy.sparse import *
 
 from N6_RJ import *
 
