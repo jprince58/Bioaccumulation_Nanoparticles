@@ -44,26 +44,26 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         p=[omega, mu, nu, eps, rho, kappa, a, b, c, Kp] #dimensionless parameter matrix
 
         #Run calculation for parameters of interest
-        [c,whoops,vn_method_of_lines,vn_RJ]=method_of_lines(t,x,y,h,p,tol) #Find the concntration profiles in space and time using Method of Lines (MOL)
-        print('you whoopsed {} many times'.format(whoops))
+        # [c,whoops,vn_method_of_lines,vn_RJ]=method_of_lines(t,x,y,h,p,tol) #Find the concntration profiles in space and time using Method of Lines (MOL)
+        # print('you whoopsed {} many times'.format(whoops))
         
-        #Unpack the data
-        cm=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
-        ca=np.zeros((nx+1,nt))
-        ct=np.zeros((nx+1,nt))
-        xindex=np.arange(0,nx+1)
-        yss_guess=np.zeros(2*nx+2)
-        for x_i in xindex:
-            j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
-            k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
-            cm[x_i,:]=c[j,:]
-            ca[x_i,:]=c[k,:]
-            ct[x_i,:]=Kp*c[j,:]+c[k,:]
-            yss_guess[j]=c[j,nt-1]
-            yss_guess[k]=c[k,nt-1]
-        c_set[i][3]=cm
-        c_set[i][4]=ca
-        c_set[i][5]=ct
+        # #Unpack the data
+        # cm=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
+        # ca=np.zeros((nx+1,nt))
+        # ct=np.zeros((nx+1,nt))
+        # xindex=np.arange(0,nx+1)
+        # yss_guess=np.zeros(2*nx+2)
+        # for x_i in xindex:
+        #     j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
+        #     k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
+        #     cm[x_i,:]=c[j,:]
+        #     ca[x_i,:]=c[k,:]
+        #     ct[x_i,:]=Kp*c[j,:]+c[k,:]
+        #     yss_guess[j]=c[j,nt-1]
+        #     yss_guess[k]=c[k,nt-1]
+        # c_set[i][3]=cm
+        # c_set[i][4]=ca
+        # c_set[i][5]=ct
         
         # %% Calcualte Steady-state profile
         [css,whoops2,vn_Newton_Rhapson,vn_RJss]=Newton_Rhapson(x,yss_guess,p,tol) #Find concentration profile at steady-state using Newton-Rhapson method
