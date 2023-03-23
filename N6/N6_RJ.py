@@ -27,7 +27,7 @@ def RJ(x,y,p):
             l=int(i/2)
             R[i]=2*omega*(x[l]**b+eps)/dx**2*(y[i+2]-y[0])-y[i]*mu*(nu*(1-x[l]**a)-y[i+1])+mu*y[i+1]*kappa
             J[i,i]=-2*omega*(x[l]**b+eps)/dx**2-mu*(nu*(1-x[l]**a)-y[i+1])
-            J[i,i+1]=mu*(y[i-1]+kappa)
+            J[i,i+1]=mu*(y[i]+kappa)
             J[i,i+2]=2*omega*(x[l]**b+eps)/dx**2
         elif i%2==1 :
             l=int((i-1)/2)

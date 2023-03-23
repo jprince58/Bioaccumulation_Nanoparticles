@@ -52,7 +52,7 @@ counter_file.close()
 h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([10]) #Final Time
+t2=np.array([0.5]) #Final Time
 nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
 mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
@@ -64,7 +64,7 @@ a=np.array([5]) #Define shape paramter for binding site profile
 b=np.array([0.5]) #Define shape paramter for intersitital porosity profile
 c=np.array([0.5]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
-ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
+ci=1 #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 # %% Generate Parameter Matrix for Testing

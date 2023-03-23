@@ -71,11 +71,11 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
       
         
         # %%Find relelvant maximums and minimums
-        upper_1 = np.amax(cm)*1.1 #Upper bound on Mobile Concentration
+        # upper_1 = np.amax(cm)*1.1 #Upper bound on Mobile Concentration
         # upper_2 = np.amax(average_conc_overtime)*1.1 #Upper Bound on Average Mobile Concentration
         # upper_3 = np.amax(change_in_concentration)*1.1 #Upper Bound on Change in Average Concentration
-        upper_4 = np.amax(ca)*1.1 #Upper bound on Bound Concentration
-        upper_5= np.amax(ct)*1.1 #Upper bound on total concentration
+        # upper_4 = np.amax(ca)*1.1 #Upper bound on Bound Concentration
+        # upper_5= np.amax(ct)*1.1 #Upper bound on total concentration
         # upper_5 = np.amax(taverage_conc_overtime)*1.1 #Upper Bound on Average total Concentration
         # upper_6 = np.amax(tchange_in_concentration)*1.1 #Upper Bound on total Change in Average Concentration
         # upper_7 = np.amax(logtavg_conc_overtime)*1.1 #Upper bound on log of total average NP conc
@@ -83,186 +83,186 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # lower_7 = np.amin(logtavg_conc_overtime)*1.1 #Lower bound on log of total average NP conc
         # lower_8 = np.amin(logtavg_conc_overtime)*1.1 #Upper bound on log of total change in conc
         
-        # %%Mobile
-        #tindex_u=np.array([0,5,10,25,50,75,100,125,150,200,250]) for masnual control over timepoints plotted
-        tp_u=10 #number of time points to plot
-        """
-        #Linear discretization of plotted timepionts
-        space_u=int((nt-1)/tp_u) #Linear discreitzation of timepoints
-        tindex_u=np.arange(0,nt,space_u) #Linear discreitization of timepoints
-        for i_u in tindex_u:
-            cc_u=cm[:,i_u]
-            ti_u=round(t[i_u],5)
-            plt.plot(x,cc_u,label='t={}'.format(ti_u))
-        """
-        #Logarthmic discreitzation of plotted timepoints
-        lognt_u=np.log10(nt) #Logarthmic timepoints
-        logspace_u=round((lognt_u)/tp_u,10) #Logarthmic timepoints
-        logtindex_u=np.arange(0,lognt_u,logspace_u) #Logarthmic timepoints
-        plt.figure(9*pc_i+0)
-        for logi_u in logtindex_u:
-            i_u=int(10**logi_u)
-            cc_u=cm[:,i_u]
-            ti_u=round(t[i_u],5)
-            plt.plot(x,cc_u,label='t={}'.format(ti_u))
+        # # %%Mobile
+        # #tindex_u=np.array([0,5,10,25,50,75,100,125,150,200,250]) for masnual control over timepoints plotted
+        # tp_u=10 #number of time points to plot
+        # """
+        # #Linear discretization of plotted timepionts
+        # space_u=int((nt-1)/tp_u) #Linear discreitzation of timepoints
+        # tindex_u=np.arange(0,nt,space_u) #Linear discreitization of timepoints
+        # for i_u in tindex_u:
+        #     cc_u=cm[:,i_u]
+        #     ti_u=round(t[i_u],5)
+        #     plt.plot(x,cc_u,label='t={}'.format(ti_u))
+        # """
+        # #Logarthmic discreitzation of plotted timepoints
+        # lognt_u=np.log10(nt) #Logarthmic timepoints
+        # logspace_u=round((lognt_u)/tp_u,10) #Logarthmic timepoints
+        # logtindex_u=np.arange(0,lognt_u,logspace_u) #Logarthmic timepoints
+        # plt.figure(9*pc_i+0)
+        # for logi_u in logtindex_u:
+        #     i_u=int(10**logi_u)
+        #     cc_u=cm[:,i_u]
+        #     ti_u=round(t[i_u],5)
+        #     plt.plot(x,cc_u,label='t={}'.format(ti_u))
 
         
-        plt.xlim(left=0,right=1)
-        plt.ylim(bottom=0,top=upper_1)
-        plt.xlabel('Position',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Dimensionless Mobile Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        plt.legend(loc=(0.1,0.1))
-        Mobile_filename_partial=f'Mobileplot{pc_i}.png'
-        Mobile_filename_full=os.path.join(internal_export_path,Mobile_filename_partial)
-        plt.savefig(Mobile_filename_full)
-        plt.close()
+        # plt.xlim(left=0,right=1)
+        # plt.ylim(bottom=0,top=upper_1)
+        # plt.xlabel('Position',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Dimensionless Mobile Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # plt.legend(loc=(0.1,0.1))
+        # Mobile_filename_partial=f'Mobileplot{pc_i}.png'
+        # Mobile_filename_full=os.path.join(internal_export_path,Mobile_filename_partial)
+        # plt.savefig(Mobile_filename_full)
+        # plt.close()
        
         
-        # %%Attached
-        tp_b=10 #number of time points to plot
+        # # %%Attached
+        # tp_b=10 #number of time points to plot
         
-        """
-        #Linear discretization of plotted timepionts
-        space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
-        tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
-        for i_b in tindex_b:
-            cc_b=ca[:,i_b]
-            ti_b=round(t[i_b],5)
-            plt.plot(x,cc_b,label='t={}'.format(ti_b))
-        """
+        # """
+        # #Linear discretization of plotted timepionts
+        # space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
+        # tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
+        # for i_b in tindex_b:
+        #     cc_b=ca[:,i_b]
+        #     ti_b=round(t[i_b],5)
+        #     plt.plot(x,cc_b,label='t={}'.format(ti_b))
+        # """
         
-        #Logarthmic discreitzation of plotted timepoints
-        lognt_b=np.log10(nt) #Logarthmic timepoints
-        logspace_b=round((lognt_b)/tp_b,10) #Logarthmic timepoints
-        logtindex_b=np.arange(0,lognt_b,logspace_b) #Logarthmic timepoints
-        plt.figure(9*pc_i+1)
-        for logi_b in logtindex_b:
-            i_b=int(10**logi_b)
-            cc_b=ca[:,i_b]
-            ti_b=round(t[i_b],5)
-            plt.plot(x,cc_b,label='t={}'.format(ti_b))
+        # #Logarthmic discreitzation of plotted timepoints
+        # lognt_b=np.log10(nt) #Logarthmic timepoints
+        # logspace_b=round((lognt_b)/tp_b,10) #Logarthmic timepoints
+        # logtindex_b=np.arange(0,lognt_b,logspace_b) #Logarthmic timepoints
+        # plt.figure(9*pc_i+1)
+        # for logi_b in logtindex_b:
+        #     i_b=int(10**logi_b)
+        #     cc_b=ca[:,i_b]
+        #     ti_b=round(t[i_b],5)
+        #     plt.plot(x,cc_b,label='t={}'.format(ti_b))
  
-        plt.xlim(left=0,right=1)
-        plt.ylim(bottom=0,top=upper_4)
-        plt.xlabel('Position',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Dimensionless Attached Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        plt.legend(loc=(0.1,0.1))
-        Attached_filename_partial=f'Attachedplot{pc_i}.png'
-        Attached_filename_full=os.path.join(internal_export_path,Attached_filename_partial)
-        plt.savefig(Attached_filename_full)
-        plt.close()
-        pics_paragraph1=report.add_paragraph()
-        pic1=pics_paragraph1.add_run()
-        pic1.add_picture(Mobile_filename_full, width=docx.shared.Inches(3))
-        pic2=pics_paragraph1.add_run()
-        pic2.add_picture(Attached_filename_full, width=docx.shared.Inches(3))
+        # plt.xlim(left=0,right=1)
+        # plt.ylim(bottom=0,top=upper_4)
+        # plt.xlabel('Position',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Dimensionless Attached Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # plt.legend(loc=(0.1,0.1))
+        # Attached_filename_partial=f'Attachedplot{pc_i}.png'
+        # Attached_filename_full=os.path.join(internal_export_path,Attached_filename_partial)
+        # plt.savefig(Attached_filename_full)
+        # plt.close()
+        # pics_paragraph1=report.add_paragraph()
+        # pic1=pics_paragraph1.add_run()
+        # pic1.add_picture(Mobile_filename_full, width=docx.shared.Inches(3))
+        # pic2=pics_paragraph1.add_run()
+        # pic2.add_picture(Attached_filename_full, width=docx.shared.Inches(3))
         
-        # %% Total
-        tp_t=10 #number of time points to plot
+        # # %% Total
+        # tp_t=10 #number of time points to plot
         
-        """
-        #Linear discretization of plotted timepionts
-        space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
-        tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
-        for i_b in tindex_b:
-            cc_b=ca[:,i_b]
-            ti_b=round(t[i_b],5)
-            plt.plot(x,cc_b,label='t={}'.format(ti_b))
-        """
+        # """
+        # #Linear discretization of plotted timepionts
+        # space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
+        # tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
+        # for i_b in tindex_b:
+        #     cc_b=ca[:,i_b]
+        #     ti_b=round(t[i_b],5)
+        #     plt.plot(x,cc_b,label='t={}'.format(ti_b))
+        # """
         
-        #Logarthmic discreitzation of plotted timepoints
-        lognt_t=np.log10(nt) #Logarthmic timepoints
-        logspace_t=round((lognt_t)/tp_t,10) #Logarthmic timepoints
-        logtindex_t=np.arange(0,lognt_t,logspace_t) #Logarthmic timepoints
-        plt.figure(9*pc_i+2)
-        for logi_t in logtindex_t:
-            i_t=int(10**logi_t)
-            cc_t=ct[:,i_t]
-            ti_t=round(t[i_t],5)
-            plt.plot(x,cc_t,label='t={}'.format(ti_t))
+        # #Logarthmic discreitzation of plotted timepoints
+        # lognt_t=np.log10(nt) #Logarthmic timepoints
+        # logspace_t=round((lognt_t)/tp_t,10) #Logarthmic timepoints
+        # logtindex_t=np.arange(0,lognt_t,logspace_t) #Logarthmic timepoints
+        # plt.figure(9*pc_i+2)
+        # for logi_t in logtindex_t:
+        #     i_t=int(10**logi_t)
+        #     cc_t=ct[:,i_t]
+        #     ti_t=round(t[i_t],5)
+        #     plt.plot(x,cc_t,label='t={}'.format(ti_t))
  
-        plt.xlim(left=0,right=1)
-        plt.ylim(bottom=0,top=upper_5)
-        plt.xlabel('Position',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Dimensionless Total Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        plt.legend(loc=(0.1,0.1))
-        total_filename_partial=f'Totalplot{pc_i}.png'
-        total_filename_full=os.path.join(internal_export_path,total_filename_partial)
-        plt.savefig(total_filename_full)
-        plt.close()
+        # plt.xlim(left=0,right=1)
+        # plt.ylim(bottom=0,top=upper_5)
+        # plt.xlabel('Position',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Dimensionless Total Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # plt.legend(loc=(0.1,0.1))
+        # total_filename_partial=f'Totalplot{pc_i}.png'
+        # total_filename_full=os.path.join(internal_export_path,total_filename_partial)
+        # plt.savefig(total_filename_full)
+        # plt.close()
         
         
     
         
-        # %%Mobile NP Average Concetration Overtime
-        plt.figure(9*pc_i+3)
-        plt.plot(t,average_mobile_conc_overtime)
-        plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        # plt.ylim(bottom=0,top=upper_2)
-        plt.xlabel('Time',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Average Dimensionless Mobile Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        avgMobile_filename_partial=f'Avg Mobileplot{pc_i}.png'
-        avgMobile_filename_full=os.path.join(internal_export_path,avgMobile_filename_partial)
-        plt.savefig(avgMobile_filename_full)
-        plt.close()
+        # # %%Mobile NP Average Concetration Overtime
+        # plt.figure(9*pc_i+3)
+        # plt.plot(t,average_mobile_conc_overtime)
+        # plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # # plt.ylim(bottom=0,top=upper_2)
+        # plt.xlabel('Time',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Average Dimensionless Mobile Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # avgMobile_filename_partial=f'Avg Mobileplot{pc_i}.png'
+        # avgMobile_filename_full=os.path.join(internal_export_path,avgMobile_filename_partial)
+        # plt.savefig(avgMobile_filename_full)
+        # plt.close()
         
-        pics_paragraph2=report.add_paragraph()
-        pic3=pics_paragraph2.add_run()
-        pic3.add_picture(total_filename_full, width=docx.shared.Inches(3))
-        pic4=pics_paragraph2.add_run()
-        pic4.add_picture(avgMobile_filename_full, width=docx.shared.Inches(3))
+        # pics_paragraph2=report.add_paragraph()
+        # pic3=pics_paragraph2.add_run()
+        # pic3.add_picture(total_filename_full, width=docx.shared.Inches(3))
+        # pic4=pics_paragraph2.add_run()
+        # pic4.add_picture(avgMobile_filename_full, width=docx.shared.Inches(3))
         
-        # %%Attached NP Average Concetration Overtime
-        plt.figure(9*pc_i+4)
-        plt.plot(t,average_attached_conc_overtime)
-        plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        # plt.ylim(bottom=0,top=upper_2)
-        plt.xlabel('Time',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Average Dimensionless Attached Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        avgAttached_filename_partial=f'Avg Attachedplot{pc_i}.png'
-        avgAttached_filename_full=os.path.join(internal_export_path,avgAttached_filename_partial)
-        plt.savefig(avgAttached_filename_full)
-        plt.close()
+        # # %%Attached NP Average Concetration Overtime
+        # plt.figure(9*pc_i+4)
+        # plt.plot(t,average_attached_conc_overtime)
+        # plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # # plt.ylim(bottom=0,top=upper_2)
+        # plt.xlabel('Time',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Average Dimensionless Attached Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # avgAttached_filename_partial=f'Avg Attachedplot{pc_i}.png'
+        # avgAttached_filename_full=os.path.join(internal_export_path,avgAttached_filename_partial)
+        # plt.savefig(avgAttached_filename_full)
+        # plt.close()
         
         
-        # %%Total NP Average Concetration Overtime
-        plt.figure(9*pc_i+5)
-        plt.plot(t,average_total_conc_overtime)
-        plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        # plt.ylim(bottom=0,top=upper_2)
-        plt.xlabel('Time',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Average Dimensionless Total Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        avgTotal_filename_partial=f'Avg Totalplot{pc_i}.png'
-        avgTotal_filename_full=os.path.join(internal_export_path,avgTotal_filename_partial)
-        plt.savefig(avgTotal_filename_full)
-        plt.close()
+        # # %%Total NP Average Concetration Overtime
+        # plt.figure(9*pc_i+5)
+        # plt.plot(t,average_total_conc_overtime)
+        # plt.xlim(left=parameter_matrix[pc_i,2],right=parameter_matrix[pc_i,3])
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # # plt.ylim(bottom=0,top=upper_2)
+        # plt.xlabel('Time',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Average Dimensionless Total Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # avgTotal_filename_partial=f'Avg Totalplot{pc_i}.png'
+        # avgTotal_filename_full=os.path.join(internal_export_path,avgTotal_filename_partial)
+        # plt.savefig(avgTotal_filename_full)
+        # plt.close()
         
-        pics_paragraph3=report.add_paragraph()
-        pic5=pics_paragraph3.add_run()
-        pic5.add_picture(avgAttached_filename_full, width=docx.shared.Inches(3))
-        pic6=pics_paragraph3.add_run()
-        pic6.add_picture(avgTotal_filename_full, width=docx.shared.Inches(3))
+        # pics_paragraph3=report.add_paragraph()
+        # pic5=pics_paragraph3.add_run()
+        # pic5.add_picture(avgAttached_filename_full, width=docx.shared.Inches(3))
+        # pic6=pics_paragraph3.add_run()
+        # pic6.add_picture(avgTotal_filename_full, width=docx.shared.Inches(3))
         
         
         # %%Steadty-state Concentration of mobile nanoparticle
