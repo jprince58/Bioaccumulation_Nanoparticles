@@ -25,10 +25,17 @@ def RJ(x,y,p):
     for i in index:
         if i==0 :
             l=int(i/2)
-            R[i]=2*omega*(x[l]**b+eps)/dx**2*(y[i+2]-y[0])-y[i]*mu*(nu*(1-x[l]**a)-y[i+1])+mu*y[i+1]*kappa
-            J[i,i]=-2*omega*(x[l]**b+eps)/dx**2-mu*(nu*(1-x[l]**a)-y[i+1])
-            J[i,i+1]=mu*(y[i-1]+kappa)
-            J[i,i+2]=2*omega*(x[l]**b+eps)/dx**2
+            #Calculate intermediate values because these are getting too long of lines of code
+            intm1=omega*(x[l]**b+eps)/dx**2 
+            intm2=omega/(2*dx)*(b*x[l]**(b-1)-2*c*x[l]**(c-1)*(x[l]**b+eps)/(x[l]**c+rho)) #Calcualte intermediate value 2 
+            intm3=omega*((c*b*x[l]**(c+b-2)+c*(c-1)*x[l]**(c-2)*(x[l]**b+eps))/(x[l]**c+rho)-2*c**2*x[l]**(2*c-2)*(x[l]**b+eps)/(x[l]**c+rho)**2)
+            intm4=mu*(nu*(1-x[l]**a)-y[i+1])
+            intm5=mu*kappa
+            R[i]=intm1*(2*y[i+2]-2*y[i])+intm2*(y[i+2]-y[i-2])-(intm3+intm4)*y[i]+intm5*y[i+1]
+            J[i,i]=-2*intm1-intm3-intm4
+            J[i,i+2]=intm1+intm2
+            J[i,i-2]=intm1-intm2
+            J[i,i+1]=mu*(y[i]+kappa)
         elif i%2==1 :
             l=int((i-1)/2)
             R[i]=mu*(y[i-1]*(nu*(1-x[l]**a)-y[i])-kappa*y[i])
