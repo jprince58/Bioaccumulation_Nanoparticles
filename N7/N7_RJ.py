@@ -9,12 +9,12 @@ def RJ(x,y,p):
     nx=len(x)-1 #Grab the mesh size for position
     ny=len(y)-2 #Grab number of y-points
     dx=1/nx #Calculate the distance between nodes (assumes domain is from 0 to 1)
-    omega=p[0] ##Define effective diffusivity  for this iteration
-    mu=p[1] #Define dimensionless and porosity adjusted binding rate constant for this iteration
-    nu=p[2] ##Define dimensionless and porosity adjusted maximum binding site density for this iteration
+    gam=p[0] ##Define effective diffusivity  for this iteration
+    alp=p[1] #Define dimensionless and porosity adjusted binding rate constant for this iteration
+    xi=p[2] ##Define dimensionless and porosity adjusted maximum binding site density for this iteration
     eps=p[3] #Define dimensionless minimum interstital porosity for this iteration
     rho=p[4] #Define dimensionless minimum traditional porosity for this iteration
-    kappa=p[5]  #Define dimensionless and porosity adjusted equilibrium constant  for this iteration
+    K=p[5]  #Define dimensionless and porosity adjusted equilibrium constant  for this iteration
     a=p[6] #Define shape paramter for binding site profile  for this iteration
     b=p[7]  #Define shape paramter for intersitital porosity profile  for this iteration
     c=p[8]  #Define shape paramter for traditional proosity profile  for this iteration
@@ -25,39 +25,42 @@ def RJ(x,y,p):
     for i in index:
         if i==0 :
             l=int(i/2)
-            #Calculate intermediate values because these are getting too long of lines of code
-            intm1=omega*(x[l]**b+eps)/dx**2 
-            intm2=omega/(2*dx)*(b*x[l]**(b-1)-2*c*x[l]**(c-1)*(x[l]**b+eps)/(x[l]**c+rho)) #Calcualte intermediate value 2 
-            intm3=omega*((c*b*x[l]**(c+b-2)+c*(c-1)*x[l]**(c-2)*(x[l]**b+eps))/(x[l]**c+rho)-2*c**2*x[l]**(2*c-2)*(x[l]**b+eps)/(x[l]**c+rho)**2)
-            intm4=mu*(nu*(1-x[l]**a)-y[i+1])
-            intm5=mu*kappa
-            R[i]=intm1*(2*y[i+2]-2*y[i])+intm2*(y[i+2]-y[i-2])-(intm3+intm4)*y[i]+intm5*y[i+1]
-            J[i,i]=-2*intm1-intm3-intm4
-            J[i,i+2]=intm1+intm2
-            J[i,i-2]=intm1-intm2
-            J[i,i+1]=mu*(y[i]+kappa)
+            por_p_0=np.tanh(c*x[l])+rho #Pore-volume based porosity- 0th derivative
+            por_p_1=c*(1/np.cosh(c*x[l]))**2 #Pore-volume based porosity- 1st derivative
+            por_p_2=-2*c**2*np.tanh(c*x[l])*(1/np.cosh(c*x[l]))**2 #Pore-volume based porosity- 2nd derivative
+            por_i_0=np.tanh(b*x[l])+eps #Interstitial-volume based porosity- 0th derivative
+            por_i_1=b*(1/np.cosh(b*x[l]))**2 #Interstitial-volume based porosity- 1st derivative
+            beta1=por_i_0
+            beta2=por_i_1-2*por_i_0*por_p_1/por_p_0
+            beta3=2*por_i_0*por_p_1**2/por_p_0**2-(por_i_1*por_p_1+por_i_0*por_p_2)/por_p_0
+            R[i]=2*gam*beta1*(y[i+2]-y[i])/dx**2+y[i]*(gam*beta3-alp*(xi-y[i+1]))+alp*K*y[i+1]
+            J[i,i]=-2*gam*beta1/dx**2+gam*beta3-alp*(xi-y[i+1])
+            J[i,i+2]=2*gam*beta1/dx**2
+            J[i,i+1]=alp*(y[i]+K)
         elif i%2==1 :
             l=int((i-1)/2)
-            R[i]=mu*(y[i-1]*(nu*(1-x[l]**a)-y[i])-kappa*y[i])
-            J[i,i]=-mu*(y[i-1]+kappa)
-            J[i,i-1]=mu*(nu*(1-x[l]**a)-y[i])
+            R[i]=alp*(y[i-1]*(xi*(1-x[l]**a)-y[i])-K*y[i])
+            J[i,i]=-alp*(y[i-1]+K)
+            J[i,i-1]=alp*(xi*(1-x[l]**a)-y[i])
         elif i==ny:
             l=int(i/2)
-            R[i]=y[i]-(1+rho)
+            R[i]=y[i]-1
             J[i,i]=1;
         elif i%2==0 and i!=0:
             l=int(i/2)
-            #Calculate intermediate values because these are getting too long of lines of code
-            intm1=omega*(x[l]**b+eps)/dx**2 
-            intm2=omega/(2*dx)*(b*x[l]**(b-1)-2*c*x[l]**(c-1)*(x[l]**b+eps)/(x[l]**c+rho)) #Calcualte intermediate value 2 
-            intm3=omega*((c*b*x[l]**(c+b-2)+c*(c-1)*x[l]**(c-2)*(x[l]**b+eps))/(x[l]**c+rho)-2*c**2*x[l]**(2*c-2)*(x[l]**b+eps)/(x[l]**c+rho)**2)
-            intm4=mu*(nu*(1-x[l]**a)-y[i+1])
-            intm5=mu*kappa
-            R[i]=intm1*(y[i+2]-2*y[i]+y[i-2])+intm2*(y[i+2]-y[i-2])-(intm3+intm4)*y[i]+intm5*y[i+1]
-            J[i,i]=-2*intm1-intm3-intm4
-            J[i,i+2]=intm1+intm2
-            J[i,i-2]=intm1-intm2
-            J[i,i+1]=mu*(y[i]+kappa)
+            por_p_0=np.tanh(c*x[l])+rho #Pore-volume based porosity- 0th derivative
+            por_p_1=c*(1/np.cosh(c*x[l]))**2 #Pore-volume based porosity- 1st derivative
+            por_p_2=-2*c**2*np.tanh(c*x[l])*(1/np.cosh(c*x[l]))**2 #Pore-volume based porosity- 2nd derivative
+            por_i_0=np.tanh(b*x[l])+eps #Interstitial-volume based porosity- 0th derivative
+            por_i_1=b*(1/np.cosh(b*x[l]))**2 #Interstitial-volume based porosity- 1st derivative
+            beta1=por_i_0
+            beta2=por_i_1-2*por_i_0*por_p_1/por_p_0
+            beta3=2*por_i_0*por_p_1**2/por_p_0**2-(por_i_1*por_p_1+por_i_0*por_p_2)/por_p_0
+            R[i]=gam*beta1*(y[i+2]-2*y[i]+y[i-2])/dx**2+gam*beta2*(y[i+2]-y[i-2])/(2*dx)+y[i]*(gam*beta3-alp*(xi*(1-x[l]**a)-y[i+1]))+alp*K*y[i+1]
+            J[i,i]=-2*gam*beta1/dx**2+gam*beta3-alp*(xi*(1-x[l]**a)-y[i+1])
+            J[i,i+2]=gam*beta1/dx**2+gam*beta2/(2*dx)
+            J[i,i-2]=gam*beta1/dx**2-gam*beta2/(2*dx)
+            J[i,i+1]=alp*(y[i]+K)
         else:
             print('Uh oh')
     return (R,J,vn_RJ)

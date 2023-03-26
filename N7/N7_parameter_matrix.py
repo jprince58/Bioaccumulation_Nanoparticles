@@ -5,6 +5,7 @@ vn_parameter_matrix_generator=1.1
 
 import numpy as np
 
+#Names for parameters aren't right, but the code still works. and yes, I know this can be done with two for loops, but the like elven I have
 def parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c,Kp):
     parameter_combos_count=len(h)*len(tol)*len(t1)*len(t2)*len(nx)*len(omega)*len(mu)*len(nu)*len(eps)*len(rho)*len(kappa)*len(a)*len(b)*len(c)*len(Kp) #Number of combination of parameters needed to test
     parameter_matrix = np.zeros((parameter_combos_count,15)) #Initialize matrix with new combo of paramters in each row. 9 is because there are 9 paramteres, can change if model changes

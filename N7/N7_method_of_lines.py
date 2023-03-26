@@ -8,7 +8,7 @@ import scipy as sp
 from scipy import sparse
 from scipy.sparse import *
 
-from N6_RJ import *
+from N7_RJ import *
 
 def method_of_lines(t,x,y,h,p,tol):
     yw=y[:,0] #Initalize the working concentration vector

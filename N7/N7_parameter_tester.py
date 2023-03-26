@@ -4,8 +4,8 @@
 vn_parameter_tester=1.1
 
 import numpy as np
-from N6_method_of_lines import *
-from N6_Newton_Rhapson import *
+from N7_method_of_lines import *
+from N7_Newton_Rhapson import *
 
 
 def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
@@ -19,12 +19,12 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         t1=parameter_matrix[i,2] #Define initial time for this iteration
         t2=parameter_matrix[i,3] #Define final time for this iteration
         nx=int(parameter_matrix[i,4]) #Define mesh size for this iteration
-        omega=parameter_matrix[i,5] ##Define effective diffusivity  for this iteration
-        mu=parameter_matrix[i,6] #Define dimensionless and porosity adjusted binding rate constant for this iteration
-        nu=parameter_matrix[i,7] ##Define dimensionless and porosity adjusted maximum binding site density for this iteration
+        gamma=parameter_matrix[i,5] ##Define effective diffusivity  for this iteration
+        alpha=parameter_matrix[i,6] #Define dimensionless and porosity adjusted binding rate constant for this iteration
+        xi=parameter_matrix[i,7] ##Define dimensionless and porosity adjusted maximum binding site density for this iteration
         eps=parameter_matrix[i,8] #Define dimensionless minimum interstital porosity for this iteration
         rho=parameter_matrix[i,9] #Define dimensionless minimum traditional porosity for this iteration
-        kappa=parameter_matrix[i,10]  #Define dimensionless and porosity adjusted equilibrium constant  for this iteration
+        K=parameter_matrix[i,10]  #Define dimensionless and porosity adjusted equilibrium constant  for this iteration
         a=parameter_matrix[i,11]  #Define shape paramter for binding site profile  for this iteration
         b=parameter_matrix[i,12]  #Define shape paramter for intersitital porosity profile  for this iteration
         c=parameter_matrix[i,13]  #Define shape paramter for traditional proosity profile  for this iteration
@@ -40,8 +40,8 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         c_set[i][2]=nt #Pass along number of time-points used for this parameter set for plotting
         y=np.zeros((ny+2,nt)) #Initialize y
         y=y+10**(-8) #Make starting values not exactly equal to zero (divide by zero erros pop up)
-        y[ny,:]=(1+rho)
-        p=[omega, mu, nu, eps, rho, kappa, a, b, c, Kp] #dimensionless parameter matrix
+        y[ny,:]=1
+        p=[gamma, alpha, xi, eps, rho, K, a, b, c, Kp] #dimensionless parameter matrix
 
         #Run calculation for parameters of interest
         [c,whoops,vn_method_of_lines,vn_RJ]=method_of_lines(t,x,y,h,p,tol) #Find the concntration profiles in space and time using Method of Lines (MOL)

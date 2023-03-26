@@ -6,7 +6,7 @@ import numpy as np
 import scipy as sp
 from scipy import sparse
 from scipy.sparse import linalg
-from N6_RJ import *
+from N7_RJ import *
 
 def Newton_Rhapson(x,y,p,tol):
     yw=y #Initalize the working concentration vector

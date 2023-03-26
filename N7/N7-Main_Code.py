@@ -17,8 +17,8 @@ machine_number=1 #Input the machine you are running this code on
 """
 
 if machine_number == 1: #Code to assign the right export paths for each machine, since each is unique
-   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N6_results\Direct Exports'
-   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N6_results\Internal Exports' 
+   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N7_results\Direct Exports'
+   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N7_results\Internal Exports' 
 
    
 # %% I don't remember what this is for but I'm scared to delete it 
@@ -29,13 +29,13 @@ get_ipython().magic('reset -sf')
 import time
 import os
 import numpy as np
-from N6_RJ import *
-from N6_method_of_lines import *
-from N6_parameter_tester import *
-from N6_parameter_matrix import *
-from N6_report_generator import *
-from N6_csv_generator import *
-from N6_linear_fitting import *
+from N7_RJ import *
+from N7_method_of_lines import *
+from N7_parameter_tester import *
+from N7_parameter_matrix import *
+from N7_report_generator import *
+from N7_csv_generator import *
+#from N7_linear_fitting import *
 
 # %% Start Timer
 t_start=time.time()
@@ -54,21 +54,29 @@ tol=np.array([10**(-8)])  #Define the tolerance the code will run with when runn
 t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([5]) #Final Time
 nx=np.array([100]) #Mesh size
-omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
-eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
-rho=np.array([0.2]) #Define dimensionless minimum traditional porosity
-kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([5]) #Define shape paramter for binding site profile
-b=np.array([1.1]) #Define shape paramter for intersitital porosity profile
-c=np.array([2.1]) #Define shape paramter for traditional proosity profile
+gamma=np.array([1]) #Define effective diffusivity 
+alpha=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
+xi=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
+K=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([1]) #Define shape paramter for binding site profile
+b=np.array([1.5]) #Define shape paramter for intersitital porosity profile
+c=np.array([1.5]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
+#Calculating the epsilon and rho corresponding to a certain minimu porosity is done below
+phi_i_min=0.2 #Minimum interstitial porosity
+phi_p_min=0.2 #Minimum pore volume porosity
+eps=np.array([phi_i_min*np.tanh(b)/(1-phi_i_min)]) #Define dimensionless minimum interstital porosity
+rho=np.array([[phi_p_min*np.tanh(c)/(1-phi_p_min)]]) #Define dimensionless minimum traditional porosity
+
+#Note: will want to rpint out porosity profile everytime now.
+
+
+
 
 # %% Generate Parameter Matrix for Testing
-[parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]=parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c,Kp)
+[parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]=parameter_matrix_generator(h,tol,t1,t2,nx,gamma,alpha,xi,eps,rho,K,a,b,c,Kp)
                     
 # %% Run parameters through numerical model (Heart of the Code)               
 [c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested
