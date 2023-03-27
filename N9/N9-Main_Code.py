@@ -17,8 +17,8 @@ machine_number=1 #Input the machine you are running this code on
 """
 
 if machine_number == 1: #Code to assign the right export paths for each machine, since each is unique
-   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N8_results\Direct Exports'
-   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N8_results\Internal Exports' 
+   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N9_results\Direct Exports'
+   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N9_results\Internal Exports' 
 
    
 # %% I don't remember what this is for but I'm scared to delete it 
@@ -29,12 +29,12 @@ get_ipython().magic('reset -sf')
 import time
 import os
 import numpy as np
-from N8_RJ import *
-from N8_method_of_lines import *
-from N8_parameter_tester import *
-from N8_parameter_matrix import *
-from N8_report_generator import *
-from N8_csv_generator import *
+from N9_RJ import *
+from N9_method_of_lines import *
+from N9_parameter_tester import *
+from N9_parameter_matrix import *
+from N9_report_generator import *
+from N9_csv_generator import *
 #from N8_linear_fitting import *
 
 # %% Start Timer
@@ -52,7 +52,7 @@ counter_file.close()
 h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([10]) #Final Time
+t2=np.array([1]) #Final Time
 nx=np.array([100]) #Mesh size
 gamma=np.array([1]) #Define effective diffusivity 
 alpha=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
