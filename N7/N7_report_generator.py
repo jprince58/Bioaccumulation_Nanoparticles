@@ -15,7 +15,7 @@ from matplotlib.animation import FuncAnimation
 def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N2,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,machine_number,internal_export_path):
     """Static Plotting (Exported to Word Document)"""
     report=docx.Document()
-    report.add_heading(f'Results from N6 Run #{new_count_number}-{machine_number}',0)
+    report.add_heading(f'Results from N7 Run #{new_count_number}-{machine_number}',0)
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     date_time_line=report.add_paragraph('Date and Time Report Generated:  ')

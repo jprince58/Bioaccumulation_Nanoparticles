@@ -59,7 +59,7 @@ def RJ(x,y,p):
             R[i]=gam*beta1*(y[i+2]-2*y[i]+y[i-2])/dx**2+gam*beta2*(y[i+2]-y[i-2])/(2*dx)+y[i]*(gam*beta3-alp*(xi*(1-x[l]**a)-y[i+1]))+alp*K*y[i+1]
             J[i,i]=-2*gam*beta1/dx**2+gam*beta3-alp*(xi*(1-x[l]**a)-y[i+1])
             J[i,i+2]=gam*beta1/dx**2+gam*beta2/(2*dx)
-            J[i,i-2]=gam*beta1/dx**2-gam*beta2/(2*dx)
+            J[i,i-2]=gam*beta1/dx**2-gam*beta2/(2*dx)   
             J[i,i+1]=alp*(y[i]+K)
         else:
             print('Uh oh')

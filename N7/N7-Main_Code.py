@@ -52,23 +52,25 @@ counter_file.close()
 h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([5]) #Final Time
+t2=np.array([1]) #Final Time
 nx=np.array([100]) #Mesh size
-gamma=np.array([1]) #Define effective diffusivity 
 alpha=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
 xi=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
 K=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([1]) #Define shape paramter for binding site profile
-b=np.array([1.5]) #Define shape paramter for intersitital porosity profile
+a=np.array([2]) #Define shape paramter for binding site profile
+b=np.array([2]) #Define shape paramter for intersitital porosity profile
 c=np.array([1.5]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
-#Calculating the epsilon and rho corresponding to a certain minimu porosity is done below
+#Calculating the gamma, epsilon and rho corresponding to a certain minimu porosity is done below
 phi_i_min=0.2 #Minimum interstitial porosity
 phi_p_min=0.2 #Minimum pore volume porosity
 eps=np.array([phi_i_min*np.tanh(b)/(1-phi_i_min)]) #Define dimensionless minimum interstital porosity
 rho=np.array([[phi_p_min*np.tanh(c)/(1-phi_p_min)]]) #Define dimensionless minimum traditional porosity
+effective_diffusivity=1
+gamma=np.array([effective_diffusivity*(1-phi_i_min)/np.tanh(b)]) #Define effective diffusivity 
+
 
 #Note: will want to rpint out porosity profile everytime now.
 
