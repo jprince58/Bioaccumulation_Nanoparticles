@@ -23,29 +23,29 @@ def RJ(x,y,p):
     J=np.zeros((ny+2,ny+2)) #Initialize J
     index=np.arange(0,ny+2) #Creater index vector
     for i in index:
-        if  i==ny:
+        if  i==0:
             l=int(i/2)
-            R[i]=2*gam*(1+eps-x[l])*(y[i-2]-y[i])/dx**2+y[i]*(gam/(1+eps-x[l])-alp*(xi*(1-x[l])**a)-y[i+1])+alp*K*y[i+1]
-            J[i,i]=-2*x[l]*gam/dx**2-alp*(xi*(1-(1-x[l])**a)-y[i+1])
+            R[i]=2*gam*x[l]*(y[i-2]-y[i])/dx**2+y[i]*(gam/x[l]-alp*(xi*(x[l]-eps)**a)-y[i+1])+alp*K*y[i+1]
+            J[i,i]=-2*x[l]*gam/dx**2-alp*(xi*(1-(x[l]-eps)**a)-y[i+1])
             J[i,i-2]=2*x[l]*gam/dx**2
             J[i,i+1]=alp*(y[i]+K)
         elif i%2==1 :
             l=int((i-1)/2)
-            R[i]=alp*(y[i-1]*(xi*(1-(1-x[l])**a)-y[i])-K*y[i])
+            R[i]=alp*(y[i-1]*(xi*(1-(x[l]-eps)**a)-y[i])-K*y[i])
             J[i,i]=-alp*(y[i-1]+K)
-            J[i,i-1]=alp*(xi*(1-(1-x[l])**a)-y[i])
-            scope1=alp*(xi*(1-(1-x[l])**a)-y[i])
-        elif i==0:
+            J[i,i-1]=alp*(xi*(1-(x[l]-eps)**a)-y[i])
+            scope1=alp*(xi*(1-(x[l]-eps)**a)-y[i])
+        elif i==ny:
             l=int(i/2)
             R[i]=y[i]-1
             J[i,i]=1;
         elif i%2==0 and i!=0:
             l=int(i/2)
-            R[i]=gam*(1+eps-x[l])*(y[i+2]-2*y[i]+y[i-2])/dx**2+gam*(y[i+2]-y[i-2])/(2*dx)+y[i]*(gam/(1+eps-x[l])-alp*(xi*(1-(1-x[l])**a)-y[i+1]))+alp*K*y[i+1]
-            J[i,i]=-2*(1+eps-x[l])*gam/dx**2+gam/x[l]-alp*(xi*(1-(1-x[l])**a)-y[i+1])
-            scope2=-2*(1+eps-x[l])*gam/dx**2+gam/x[l]-alp*(xi*(1-(1-x[l])**a)-y[i+1])
-            J[i,i+2]=gam*x[l]/dx**2+gam/(2*dx)
-            J[i,i-2]=gam*x[l]/dx**2-gam/(2*dx)
+            R[i]=gam*x[l]*(y[i+2]-2*y[i]+y[i-2])/dx**2-gam*(y[i+2]-y[i-2])/(2*dx)+y[i]*(gam/x[l]-alp*(xi*(1-(x[l]-eps)**a)-y[i+1]))+alp*K*y[i+1]
+            J[i,i]=-2*x[l]*gam/dx**2+gam/x[l]-alp*(xi*(1-(x[l]-eps)**a)-y[i+1])
+            scope2=-2*x[l]*gam/dx**2+gam/x[l]-alp*(xi*(1-(x[l]-eps)**a)-y[i+1])
+            J[i,i+2]=gam*x[l]/dx**2-gam/(2*dx)
+            J[i,i-2]=gam*x[l]/dx**2+gam/(2*dx)
             J[i,i+1]=alp*(y[i]+K)
         else:
             print('Uh oh')

@@ -268,7 +268,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Steadty-state Concentration of mobile nanoparticle
         plt.figure(9*pc_i+6)
         plt.plot(x,cm_ss)
-        plt.xlim(left=0,right=1)
+        plt.xlim(left=parameter_matrix[pc_i,8],right=1+parameter_matrix[pc_i,8])
         #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
         # plt.ylim(bottom=0,top=upper_2)
         plt.xlabel('Position',fontsize=14)
@@ -284,7 +284,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Steadty-state Concentration of attached nanoparticle
         plt.figure(9*pc_i+7)
         plt.plot(x,ca_ss)
-        plt.xlim(left=0,right=1)
+        plt.xlim(left=parameter_matrix[pc_i,8],right=1+parameter_matrix[pc_i,8])
         #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
         # plt.ylim(bottom=0,top=upper_2)
         plt.xlabel('Position',fontsize=14)
@@ -306,7 +306,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Steadty-state Concentration of total nanoparticles
         plt.figure(9*pc_i+8)
         plt.plot(x,ct_ss)
-        plt.xlim(left=0,right=1)
+        plt.xlim(left=parameter_matrix[pc_i,8],right=1+parameter_matrix[pc_i,8])
         #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
         # plt.ylim(bottom=0,top=upper_2)
         plt.xlabel('Position',fontsize=14)

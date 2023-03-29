@@ -31,7 +31,7 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         Kp=parameter_matrix[i,14] #define partition coeffecient for this iteration
         
         #Calculate internal paramters to model
-        x=np.linspace(0,1,nx+1) #Define x (note, if x doesn't range from 0 to 1, should edit this)
+        x=np.linspace(eps,1+eps,nx+1) #Define x (note, if x doesn't range from 0 to 1, should edit this)
         c_set[i][0]=x #Pass along x-vector for this parameter set for plotting
         t=np.arange(t1,t2+h,h) #Define t
         c_set[i][1]=t #Pass along t-vector for this parameter set for plotting
