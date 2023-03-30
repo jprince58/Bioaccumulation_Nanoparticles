@@ -10,13 +10,13 @@ from scipy.sparse import *
 
 from N6_RJ import *
 
-def method_of_lines(t,x,y,h,p,tol):
+def method_of_lines(t,x,y,h,p,tol,fit_coeff):
     yw=y[:,0] #Initalize the working concentration vector
     index=np.arange(0,len(t)) #Creater index vector
     whoops=0 #initialize error function
     for i in index: #Begin for loop which iterates over all the entries in the time vector, assigning them the value td
         yold=yw #update the old y-value
-        [R,J,vn_RJ]=RJ(x,yw,p); #Calculate Residual and Jacobian from new y value
+        [R,J,vn_RJ]=RJ(x,yw,p,fit_coeff,t[i]); #Calculate Residual and Jacobian from new y value
         R=yw-yold-h*R
         k=0
         while np.linalg.norm(R)>tol :
@@ -25,7 +25,7 @@ def method_of_lines(t,x,y,h,p,tol):
             J=sp.sparse.csc_matrix(J)
             dif=-sp.sparse.linalg.spsolve(J,R) #Apply built in sparse Linear solver to find delta from J and R
             yw=yw+dif ; #Update y
-            [R,J,nv_RJ]=RJ(x,yw,p); #Calculate Residual and Jacobian from new y value
+            [R,J,nv_RJ]=RJ(x,yw,p,fit_coeff,t[i]); #Calculate Residual and Jacobian from new y value
             R=yw-yold-h*R ; #Update Residual
             if k>100:
                 print('Whoops')

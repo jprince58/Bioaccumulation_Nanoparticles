@@ -36,6 +36,7 @@ from N6_parameter_matrix import *
 from N6_report_generator import *
 from N6_csv_generator import *
 from N6_linear_fitting import *
+from N6_experimental_data_extractor import *
 
 # %% Start Timer
 t_start=time.time()
@@ -67,11 +68,15 @@ Kp=np.array([1]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
+# %% Grab Experimental Results to fit to model
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_2.csv'
+[experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
+
 # %% Generate Parameter Matrix for Testing
 [parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]=parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c,Kp)
                     
 # %% Run parameters through numerical model (Heart of the Code)               
-[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested
+[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci,fit_coeff) #output the set of concentration over time and space results for each set of parameters tested
 
 # %% Export results to csv files
 vn_csv_generator = csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_path,new_count_number,machine_number)

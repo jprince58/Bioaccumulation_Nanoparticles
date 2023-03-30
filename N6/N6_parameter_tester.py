@@ -8,7 +8,7 @@ from N6_method_of_lines import *
 from N6_Newton_Rhapson import *
 
 
-def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
+def parameter_checker(parameter_matrix,ci,fit_coeff): #unpack paramteres and test
     
     #Calculate other internal paramters to model
     parameter_combos_count=np.shape(parameter_matrix) [0]
@@ -44,7 +44,7 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         p=[omega, mu, nu, eps, rho, kappa, a, b, c, Kp] #dimensionless parameter matrix
 
         #Run calculation for parameters of interest
-        [c,whoops,vn_method_of_lines,vn_RJ]=method_of_lines(t,x,y,h,p,tol) #Find the concntration profiles in space and time using Method of Lines (MOL)
+        [c,whoops,vn_method_of_lines,vn_RJ]=method_of_lines(t,x,y,h,p,tol,fit_coeff) #Find the concntration profiles in space and time using Method of Lines (MOL)
         print('you whoopsed {} many times'.format(whoops))
         
         #Unpack the data

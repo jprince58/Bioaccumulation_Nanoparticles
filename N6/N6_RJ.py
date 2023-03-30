@@ -4,8 +4,9 @@
 vn_RJ=1.1
 
 import numpy as np
+from N6_BCcalc import *
 
-def RJ(x,y,p):
+def RJ(x,y,p,fit_coeff,t):
     nx=len(x)-1 #Grab the mesh size for position
     ny=len(y)-2 #Grab number of y-points
     dx=1/nx #Calculate the distance between nodes (assumes domain is from 0 to 1)
@@ -43,7 +44,9 @@ def RJ(x,y,p):
             J[i,i-1]=mu*(nu*(1-x[l]**a)-y[i])
         elif i==ny:
             l=int(i/2)
-            R[i]=y[i]-(1+rho)
+            #R[i]=y[i]-(1+rho)
+            R[i]=y[i]-BCcalc(t,fit_coeff)-rho
+            test=BCcalc(t,fit_coeff)
             J[i,i]=1;
         elif i%2==0 and i!=0:
             l=int(i/2)

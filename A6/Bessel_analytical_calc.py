@@ -10,11 +10,11 @@ import scipy
 import scipy.special as sp
 import matplotlib.pyplot as plt
 
-sumt=4
+sumt=5
 epsilon=0.2
 tv=np.arange(0,2,0.02)
 xv=np.arange(epsilon,epsilon+1,0.05)
-const_coeff=np.zeros((4,3))
+const_coeff=np.zeros((6,3))
 const_coeff[0,0]=3.25093 
 const_coeff[0,1]=27.4144
 const_coeff[0,2]=0.165236
@@ -27,6 +27,15 @@ const_coeff[2,2]=-2.70904
 const_coeff[3,0]=10.7796
 const_coeff[3,1]=0.905449
 const_coeff[3,2]=-1.38796
+const_coeff[4,0]=13.2256
+const_coeff[4,1]=-11.2964
+const_coeff[4,2]=0.180238
+const_coeff[5,0]=15.6645
+const_coeff[5,1]=-0.604154
+const_coeff[5,2]=1.60086
+
+
+
 y=np.zeros((len(tv),len(xv)))
 ti=0
 for t in tv:
