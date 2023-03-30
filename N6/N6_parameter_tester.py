@@ -65,27 +65,27 @@ def parameter_checker(parameter_matrix,ci,fit_coeff): #unpack paramteres and tes
         c_set[i][4]=ca
         c_set[i][5]=ct
         
-        # %% Calcualte Steady-state profile
-        [css,whoops2,vn_Newton_Rhapson,vn_RJss]=Newton_Rhapson(x,yss_guess,p,tol) #Find concentration profile at steady-state using Newton-Rhapson method
-        print('you were bamboozled on ss calc {} many times'.format(whoops2))
+        # # %% Calcualte Steady-state profile
+        # [css,whoops2,vn_Newton_Rhapson,vn_RJss]=Newton_Rhapson(x,yss_guess,p,tol) #Find concentration profile at steady-state using Newton-Rhapson method
+        # print('you were bamboozled on ss calc {} many times'.format(whoops2))
         
-        #Unpack SS profile and pass along to c_set
-        cm_ss=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
-        ca_ss=np.zeros((nx+1,nt))
-        ct_ss=np.zeros((nx+1,nt))
+        # #Unpack SS profile and pass along to c_set
+        # cm_ss=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
+        # ca_ss=np.zeros((nx+1,nt))
+        # ct_ss=np.zeros((nx+1,nt))
         
-        for x_i in xindex:
-            j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
-            k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
-            for x_i in xindex:
-                j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
-                k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
-                cm_ss[x_i]=css[j]
-                ca_ss[x_i]=css[k]
-                ct_ss[x_i]=Kp*css[j]+css[k]
-        c_set[i][9]=cm_ss #Pass along steady-state mobile nanoparticle concentration
-        c_set[i][10]=ca_ss #Pass along steady-state attached nanoparticle concentration
-        c_set[i][11]=ct_ss #Pass along steady-state total nanoparticle concentration
+        # for x_i in xindex:
+        #     j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
+        #     k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
+        #     for x_i in xindex:
+        #         j=2*x_i #secondary index (position of unbound NP concentration in original concentration matrix)
+        #         k=2*x_i+1 #Secondary index (position of bound NP concentration in original concentration matrix)
+        #         cm_ss[x_i]=css[j]
+        #         ca_ss[x_i]=css[k]
+        #         ct_ss[x_i]=Kp*css[j]+css[k]
+        # c_set[i][9]=cm_ss #Pass along steady-state mobile nanoparticle concentration
+        # c_set[i][10]=ca_ss #Pass along steady-state attached nanoparticle concentration
+        # c_set[i][11]=ct_ss #Pass along steady-state total nanoparticle concentration
         
     
         #Find average NP Concentration Overtime

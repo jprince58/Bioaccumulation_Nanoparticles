@@ -56,7 +56,7 @@ counter_file.close()
 h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-6)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([10]) #Final Time
+t2=np.array([5]) #Final Time
 nx=np.array([100]) #Mesh size 
 gam=np.array([0.5]) #Define dimenionless ratio of diffusivities to test
 F=np.array([50]) #Define the dimensionless forward reaction rate constant to test
