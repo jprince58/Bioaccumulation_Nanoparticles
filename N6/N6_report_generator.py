@@ -325,6 +325,14 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # pic9=pics_paragraph5.add_run()
         # pic9.add_picture(total_ss_filename_full, width=docx.shared.Inches(3))
         
+        # %% Model fit Plot
+        pics_paragraph6=report.add_paragraph()
+        modelfit_filename_partial=f'Modelfitplot{pc_i}.png'
+        modelfit_filename_full=os.path.join(internal_export_path,modelfit_filename_partial)
+        pic6=pics_paragraph6.add_run()
+        pic6.add_picture(modelfit_filename_full, width=docx.shared.Inches(6))
+       
+        
         """# %%Unbound NP Change in Concentration vs Concentration
         plt.figure(7*pc_i+3)
         plt.plot(average_conc_overtime,change_in_concentration)

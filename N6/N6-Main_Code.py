@@ -37,6 +37,7 @@ from N6_report_generator import *
 from N6_csv_generator import *
 from N6_linear_fitting import *
 from N6_experimental_data_extractor import *
+from N6_exp_data_fitter import *
 
 # %% Start Timer
 t_start=time.time()
@@ -50,10 +51,10 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.05]) #Define timesteps to test
+h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([5]) #Final Time
+t2=np.array([6]) #Final Time
 nx=np.array([50]) #Mesh size
 omega=np.array([0.8]) #Define effective diffusivity 
 mu=np.array([5]) #Define dimensionless and porosity adjusted binding rate constant
@@ -65,21 +66,23 @@ a=np.array([15]) #Define shape paramter for binding site profile
 b=np.array([1.5]) #Define shape paramter for intersitital porosity profile
 c=np.array([2.5]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
+kconv=188.8 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 #%% Grab Experimental Results to fit to model
-experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_2.csv'
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_bump.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
 # %% Generate Parameter Matrix for Testing
 [parameter_matrix,parameter_combos_count,vn_parameter_matrix_generator]=parameter_matrix_generator(h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c,Kp)
                     
 # %% Run parameters through numerical model (Heart of the Code)               
-[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci,fit_coeff) #output the set of concentration over time and space results for each set of parameters tested
+[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci,fit_coeff,kconv) #output the set of concentration over time and space results for each set of parameters tested
 #[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested
 
-# 
+# %% Fit Model to Experimental Data
+fitting_results=exp_data_fitter(c_set,experimental_results,parameter_combos_count,internal_export_path,kconv,t2)
 
 # %% Export results to csv files
 vn_csv_generator = csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_path,new_count_number,machine_number)

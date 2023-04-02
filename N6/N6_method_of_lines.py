@@ -11,7 +11,7 @@ from scipy.sparse import *
 from N6_RJ import *
 from N6_BCcalc import *
 
-def method_of_lines(t,x,y,h,p,tol,fit_coeff):
+def method_of_lines(t,x,y,h,p,tol,fit_coeff,kconv):
 #def method_of_lines(t,x,y,h,p,tol):
     yw=y[:,0] #Initalize the working concentration vector
     index=np.arange(0,len(t)) #Creater index vector
@@ -21,9 +21,9 @@ def method_of_lines(t,x,y,h,p,tol,fit_coeff):
     Kp=p[9] #Define partition coefecient 
     for i in index: #Begin for loop which iterates over all the entries in the time vector, assigning them the value td
         yold=yw #update the old y-value
-        yw[-2]=BCcalc(t[i],fit_coeff,tmax)*(1+rho)/Kp #Pass along boudnary condition as initial guess
+        yw[-2]=BCcalc(t[i],fit_coeff,tmax,kconv)*(1+rho)/Kp #Pass along boudnary condition as initial guess
         #think I need to hard-code in the BC as the 
-        [R,J,vn_RJ]=RJ(x,yw,p,fit_coeff,t[i],tmax); #Calculate Residual and Jacobian from new y value
+        [R,J,vn_RJ]=RJ(x,yw,p,fit_coeff,t[i],tmax,kconv); #Calculate Residual and Jacobian from new y value
         #[R,J,vn_RJ]=RJ(x,yw,p,t[i]); #Calculate Residual and Jacobian from new y value
         R=yw-yold-h*R
         k=0
@@ -33,7 +33,7 @@ def method_of_lines(t,x,y,h,p,tol,fit_coeff):
             J=sp.sparse.csc_matrix(J)
             dif=-sp.sparse.linalg.spsolve(J,R) #Apply built in sparse Linear solver to find delta from J and R
             yw=yw+dif ; #Update y
-            [R,J,vn_RJ]=RJ(x,yw,p,fit_coeff,t[i],tmax); #Calculate Residual and Jacobian from new y value
+            [R,J,vn_RJ]=RJ(x,yw,p,fit_coeff,t[i],tmax,kconv); #Calculate Residual and Jacobian from new y value
             #[R,J,nv_RJ]=RJ(x,yw,p,t[i]); #Calculate Residual and Jacobian from new y value
             R=yw-yold-h*R ; #Update Residual
             if k>100:

@@ -6,7 +6,7 @@ vn_RJ=1.1
 import numpy as np
 from N6_BCcalc import *
 
-def RJ(x,y,p,fit_coeff,t,tmax):
+def RJ(x,y,p,fit_coeff,t,tmax,kconv):
 #def RJ(x,y,p,t):
     nx=len(x)-1 #Grab the mesh size for position
     ny=len(y)-2 #Grab number of y-points
@@ -47,7 +47,7 @@ def RJ(x,y,p,fit_coeff,t,tmax):
         elif i==ny:
             l=int(i/2)
             #R[i]=y[i]-1-rho
-            R[i]=y[i]-BCcalc(t,fit_coeff,tmax)*(1+rho)/Kp
+            R[i]=y[i]-BCcalc(t,fit_coeff,tmax,kconv)*(1+rho)/Kp
             # test=BCcalc(t,fit_coeff,tmax)+rho
             J[i,i]=1;
         elif i%2==0 and i!=0:
