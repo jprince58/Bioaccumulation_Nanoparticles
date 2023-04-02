@@ -6,7 +6,7 @@ vn_RJ=1.0
 import numpy as np
 from N3_BCcalc import *
 
-def RJ(x,y,yold,p,h,t,fit_coeff):
+def RJ(x,y,yold,p,h,t,fit_coeff,tmax):
     nx=len(x)-1 #Grab the mesh size for position
     ny=len(y) #Grab number of y-points
     dx=1/nx #Calculate the distance between nodes (assumes domain is from 0 to 1)
@@ -40,9 +40,9 @@ def RJ(x,y,yold,p,h,t,fit_coeff):
             J[i,2]=-2/dx**2
             J[i,5]=2/dx**2
         elif i==ny-3: #water-biofilm interface node for unbound NP balance
-            R[i]=y[i]-1
-            #R[i]=y[i]-BCcalc(t,fit_coeff)
-            test=BCcalc(t,fit_coeff)
+            # R[i]=y[i]-1
+            R[i]=y[i]-BCcalc(t,fit_coeff,tmax)   
+            test=BCcalc(t,fit_coeff,tmax)
             J[i,i]=1
         elif i==ny-2: #water-biofilm interface node for bound NP balance
             R[i]=y[i]-yold[i]-h*F*(y[i-1]*(eps-y[i])-K*y[i])

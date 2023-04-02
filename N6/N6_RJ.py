@@ -6,7 +6,8 @@ vn_RJ=1.1
 import numpy as np
 from N6_BCcalc import *
 
-def RJ(x,y,p,fit_coeff,t):
+def RJ(x,y,p,fit_coeff,t,tmax):
+#def RJ(x,y,p,t):
     nx=len(x)-1 #Grab the mesh size for position
     ny=len(y)-2 #Grab number of y-points
     dx=1/nx #Calculate the distance between nodes (assumes domain is from 0 to 1)
@@ -19,6 +20,7 @@ def RJ(x,y,p,fit_coeff,t):
     a=p[6] #Define shape paramter for binding site profile  for this iteration
     b=p[7]  #Define shape paramter for intersitital porosity profile  for this iteration
     c=p[8]  #Define shape paramter for traditional proosity profile  for this iteration
+    Kp=p[9] #Define partition coefecient 
 
     R=np.zeros(ny+2) #Initialize R
     J=np.zeros((ny+2,ny+2)) #Initialize J
@@ -44,9 +46,9 @@ def RJ(x,y,p,fit_coeff,t):
             J[i,i-1]=mu*(nu*(1-x[l]**a)-y[i])
         elif i==ny:
             l=int(i/2)
-            #R[i]=y[i]-(1+rho)
-            R[i]=y[i]-BCcalc(t,fit_coeff)-rho
-            test=BCcalc(t,fit_coeff)
+            #R[i]=y[i]-1-rho
+            R[i]=y[i]-BCcalc(t,fit_coeff,tmax)*(1+rho)/Kp
+            # test=BCcalc(t,fit_coeff,tmax)+rho
             J[i,i]=1;
         elif i%2==0 and i!=0:
             l=int(i/2)

@@ -53,10 +53,10 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.01]) #Define timesteps to test
+h=np.array([0.1]) #Define timesteps to test
 tol=np.array([10**(-6)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([5]) #Final Time
+t2=np.array([45]) #Final Time
 nx=np.array([100]) #Mesh size 
 gam=np.array([0.5]) #Define dimenionless ratio of diffusivities to test
 F=np.array([50]) #Define the dimensionless forward reaction rate constant to test
@@ -65,7 +65,7 @@ eps=np.array([50]) #Define ratio of total NP binding sites to supernatant NP con
 omega=np.array([0.1]) #Define contribution of nanoparticle to biofilm to electrical potential profile
 ups= np.array([1])#Define ratio of biofilm to nanoparticle charge (Defunct parameter from previous version of the model)
 Kp= np.array([1]) #Define partition coeffecient of NP into biofilm at water-biofilm interface
-beta= np.array([1]) #Define ratio of electrophoresis to diffusivity in system    
+beta= np.array([0]) #Define ratio of electrophoresis to diffusivity in system    
 
 # %% Grab Experimental Results to fit to model
 experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_2.csv'

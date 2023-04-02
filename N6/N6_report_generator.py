@@ -86,7 +86,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Mobile
         #tindex_u=np.array([0,5,10,25,50,75,100,125,150,200,250]) for masnual control over timepoints plotted
         tp_u=10 #number of time points to plot
-        """
+
         #Linear discretization of plotted timepionts
         space_u=int((nt-1)/tp_u) #Linear discreitzation of timepoints
         tindex_u=np.arange(0,nt,space_u) #Linear discreitization of timepoints
@@ -105,7 +105,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_u=cm[:,i_u]
             ti_u=round(t[i_u],5)
             plt.plot(x,cc_u,label='t={}'.format(ti_u))
-
+        """
         
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_1)
@@ -124,7 +124,7 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %%Attached
         tp_b=10 #number of time points to plot
         
-        """
+
         #Linear discretization of plotted timepionts
         space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
         tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
@@ -144,7 +144,8 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_b=ca[:,i_b]
             ti_b=round(t[i_b],5)
             plt.plot(x,cc_b,label='t={}'.format(ti_b))
- 
+ """
+    
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_4)
         plt.xlabel('Position',fontsize=14)
@@ -166,14 +167,14 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         # %% Total
         tp_t=10 #number of time points to plot
         
-        """
+
         #Linear discretization of plotted timepionts
-        space_b=int((nt-1)/tp_b) #Linear discreitzation of timepoints
-        tindex_b=np.arange(0,nt,space_b) #Linear discreitzation of timepoints
-        for i_b in tindex_b:
-            cc_b=ca[:,i_b]
-            ti_b=round(t[i_b],5)
-            plt.plot(x,cc_b,label='t={}'.format(ti_b))
+        space_t=int((nt-1)/tp_t) #Linear discreitzation of timepoints
+        tindex_t=np.arange(0,nt,space_t) #Linear discreitzation of timepoints
+        for i_t in tindex_t:
+            cc_t=ct[:,i_t]
+            ti_t=round(t[i_t],5)
+            plt.plot(x,cc_t,label='t={}'.format(ti_t))
         """
         
         #Logarthmic discreitzation of plotted timepoints
@@ -186,7 +187,8 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
             cc_t=ct[:,i_t]
             ti_t=round(t[i_t],5)
             plt.plot(x,cc_t,label='t={}'.format(ti_t))
- 
+ """
+    
         plt.xlim(left=0,right=1)
         plt.ylim(bottom=0,top=upper_5)
         plt.xlabel('Position',fontsize=14)

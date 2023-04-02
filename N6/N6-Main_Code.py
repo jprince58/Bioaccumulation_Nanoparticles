@@ -50,25 +50,25 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.01]) #Define timesteps to test
+h=np.array([0.05]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([5]) #Final Time
-nx=np.array([100]) #Mesh size
-omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
-eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
-rho=np.array([0.2]) #Define dimensionless minimum traditional porosity
+nx=np.array([50]) #Mesh size
+omega=np.array([0.8]) #Define effective diffusivity 
+mu=np.array([5]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([5]) #Define dimensionless and porosity adjusted maximum binding site density
+eps=np.array([0.8]) #Define dimensionless minimum interstital porosity
+rho=np.array([0.8]) #Define dimensionless minimum traditional porosity
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([5]) #Define shape paramter for binding site profile
-b=np.array([2]) #Define shape paramter for intersitital porosity profile
-c=np.array([3]) #Define shape paramter for traditional proosity profile
+a=np.array([15]) #Define shape paramter for binding site profile
+b=np.array([1.5]) #Define shape paramter for intersitital porosity profile
+c=np.array([2.5]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
-# %% Grab Experimental Results to fit to model
+#%% Grab Experimental Results to fit to model
 experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_2.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
@@ -77,6 +77,9 @@ experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extr
                     
 # %% Run parameters through numerical model (Heart of the Code)               
 [c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci,fit_coeff) #output the set of concentration over time and space results for each set of parameters tested
+#[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested
+
+# 
 
 # %% Export results to csv files
 vn_csv_generator = csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_path,new_count_number,machine_number)
