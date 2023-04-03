@@ -90,7 +90,7 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
         modelfit_filename_full=os.path.join(internal_export_path,modelfit_filename_partial)
         plt.savefig(modelfit_filename_full)
         plt.close()
-    return 0
+    return collated_results
 
 # %%
 """
