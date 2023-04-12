@@ -41,6 +41,14 @@ from N6_exp_data_fitter import *
 from N6_residual_calc import *
 from lmfit import minimize, Parameters, Parameter, report_fit, Model
 
+#Way to keep iterations from going on forever
+def check(params, iter, resid):
+    if iter>5:
+        x=True
+    else:
+        x=False
+    return x
+
 
 # %% Start Timer
 t_start=time.time()
@@ -63,43 +71,55 @@ experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extr
 # %%Inputs Code Block
 # set parameters including bounds for model; you can also fix parameters (use vary=False)
 params = Parameters()
-params.add('h', value=0.1, vary=False)
+params.add('h', value=0.005, vary=False)
 params.add('tol', value=10**(-6), vary=False)
 params.add('t1', value=0, vary=False)
-params.add('t2', value=6, vary=False)
-params.add('nx', value=30, vary=False)
-params.add('omega', value=0.8, min=0.5, max=1.)
-params.add('mu', value=5., min=1, max=10.)
-params.add('nu', value=5., min=1, max=10.)
-params.add('eps', value=0.8, min=0.1, max=0.9)
-params.add('rho', value=0.8, min=0.1, max=0.9)
-params.add('kappa', value=1., min=0.1, max=10.)
-params.add('a', value=5, min=1, max=20.)  
-params.add('b', value=2, min=1, max=20.)
-params.add('c', value=3, min=2, max=20.)
-params.add('Kp', value=1, min=0.01, max=10.)
+params.add('t2', value=3, vary=False)
+params.add('nx', value=50, vary=False)
+# params.add('omega', value=0.8, min=0.5, max=1.)
+params.add('omega', value=1, vary=False)
+params.add('mu', value=0.3, min=0.05, max=5.)
+# params.add('mu', value=0.3, vary=False)
+params.add('nu', value=3.55, min=1, max=10.)
+# params.add('nu', value=4, vary=False)
+params.add('eps', value=10, min=0.1, max=20)
+# params.add('eps', value=4, vary=False)
+params.add('rho', value=1.15, min=0.1, max=10)
+# params.add('rho', value=1.15, vary=False)
+# params.add('kappa', value=1., min=0.1, max=10.)
+params.add('kappa', value=1., vary=False)
+# params.add('a', value=5, min=1, max=20.) 
+params.add('a', value=15, vary=False)  
+# params.add('b', value=1.05, min=1, max=20.)
+params.add('b', value=1.05, vary=False)
+# params.add('c', value=2.05, min=2, max=20.)
+params.add('c', value=2.05, vary=False)
+# params.add('Kp', value=1, min=0.01, max=10.)
+params.add('Kp', value=1, vary=False)
 params.add('kconv', value=188.8, vary=False)
 
 # fit models
+# fit_results = minimize(residual_calc, params, method='leastsq', iter_cb=check(params, iter, resid))  # fitting for model    
 fit_results = minimize(residual_calc, params, method='leastsq')  # fitting for model    
 
 # %% Grab parameters from model fit
-h=fit_results.params['h'] #Define timesteps 
-tol=fit_results.params['tol']  #Define the tolerance the code will run with when running Newton-Rhapson
-t1=fit_results.params['t1'] #Define initialtime vector of values 
-t2=fit_results.params['t2'] #Final Time
-nx=fit_results.params['nx'] #Mesh size
-omega=fit_results.params['omega'] #Define effective diffusivity 
-mu=fit_results.params['mu'] #Define dimensionless and porosity adjusted binding rate constant
-nu=fit_results.params['nu'] #Define dimensionless and porosity adjusted maximum binding site density
-eps=fit_results.params['eps'] #Define dimensionless minimum interstital porosity
-rho=fit_results.params['rho'] #Define dimensionless minimum traditional porosity
-kappa=fit_results.params['kappa'] #Define dimensionless and porosity adjusted equilibrium constant
-a=fit_results.params['a'] #Define shape paramter for binding site profile
-b=fit_results.params['b'] #Define shape paramter for intersitital porosity profile
-c=fit_results.params['c'] #Define shape paramter for traditional proosity profile
-Kp=fit_results.params['Kp'] #Define partition coeffecient
+h=np.array([fit_results.params['h'].value]) #Define timesteps 
+tol=np.array([fit_results.params['tol'].value])  #Define the tolerance the code will run with when running Newton-Rhapson
+t1=np.array([fit_results.params['t1'].value]) #Define initialtime vector of values 
+t2=np.array([fit_results.params['t2'].value]) #Final Time
+nx=np.array([fit_results.params['nx'].value]) #Mesh size
+omega=np.array([fit_results.params['omega'].value]) #Define effective diffusivity 
+mu=np.array([fit_results.params['mu'].value]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([fit_results.params['nu'].value]) #Define dimensionless and porosity adjusted maximum binding site density
+eps=np.array([fit_results.params['eps'].value]) #Define dimensionless minimum interstital porosity
+rho=np.array([fit_results.params['rho'].value]) #Define dimensionless minimum traditional porosity
+kappa=np.array([fit_results.params['kappa'].value]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([fit_results.params['a'].value]) #Define shape paramter for binding site profile
+b=np.array([fit_results.params['b'].value]) #Define shape paramter for intersitital porosity profile
+c=np.array([fit_results.params['c'].value]) #Define shape paramter for traditional proosity profile
+Kp=np.array([fit_results.params['Kp'].value]) #Define partition coeffecient  
 kconv=188.8 #guess a AU to particle conversion factor
+ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 #%% Grab Experimental Results to fit to model
@@ -133,12 +153,12 @@ t_end=time.time()
 total_time=t_end-t_start
 print('Total time is {} sec'.format(total_time))
 
-#%% To export report, turn on this code block
-#Finish Report
-# para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
-# report_filename_partial=f'N6_report{new_count_number}-{machine_number}.docx'
-# report_filename_full=os.path.join(direct_export_path,report_filename_partial)
-# report.save(report_filename_full)
+# %% To export report, turn on this code block
+# Finish Report
+para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
+report_filename_partial=f'N6_report{new_count_number}-{machine_number}.docx'
+report_filename_full=os.path.join(direct_export_path,report_filename_partial)
+report.save(report_filename_full)
 
 """
 Created on Tue Jun 16 16:13:07 2020

@@ -51,20 +51,20 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.01]) #Define timesteps to test
+h=np.array([0.001]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([6]) #Final Time
+t2=np.array([3]) #Final Time
 nx=np.array([50]) #Mesh size
-omega=np.array([0.8]) #Define effective diffusivity 
-mu=np.array([5]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([5]) #Define dimensionless and porosity adjusted maximum binding site density
-eps=np.array([0.8]) #Define dimensionless minimum interstital porosity
-rho=np.array([0.8]) #Define dimensionless minimum traditional porosity
+omega=np.array([1]) #Define effective diffusivity 
+mu=np.array([0.3]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([3.55]) #Define dimensionless and porosity adjusted maximum binding site density
+eps=np.array([20]) #Define dimensionless minimum interstital porosity
+rho=np.array([1.15]) #Define dimensionless minimum traditional porosity
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([15]) #Define shape paramter for binding site profile
-b=np.array([1.5]) #Define shape paramter for intersitital porosity profile
-c=np.array([2.5]) #Define shape paramter for traditional proosity profile
+a=np.array([20]) #Define shape paramter for binding site profile
+b=np.array([1.05]) #Define shape paramter for intersitital porosity profile
+c=np.array([2.05]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
 kconv=188.8 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
@@ -95,7 +95,6 @@ vn_csv_generator = csv_generator(c_set,parameter_combos_count,parameter_matrix,d
 # %% Report Generator: Exports Plots as Word Document to Seperate Directory (see file N2_report_generator.py)
 #report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,perc_acc_matrix,vn_linear_fitting,machine_number,internal_export_path)
 report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,machine_number,internal_export_path)
-
 
 # %% Stop Timer
 #End timer

@@ -44,7 +44,7 @@ def RJ(x,y,p):
             J[i,i-1]=alp*(xi*(1-x[l]**a)-y[i])
         elif i==ny:
             l=int(i/2)
-            R[i]=y[i]-1
+            R[i]=y[i]-1-rho
             J[i,i]=1;
         elif i%2==0 and i!=0:
             l=int(i/2)

@@ -49,17 +49,24 @@ for t in tv:
         y[ti,xi]=yw
         xi=xi+1
     ti=ti+1
+ 
     
+max=np.amax(y) 
+print(max)
 plt.figure(0) 
-tp_u=10 #number of time points to plot
+plt.xlabel('Dimensionless Depth, 0=substratum')
+plt.ylabel('Dimensionless Concentration')
+tp_u=15 #number of time points to plot
 nt=len(tv)
 lognt_u=np.log10(nt) #Logarthmic timepoints
 logspace_u=round((lognt_u)/tp_u,10) #Logarthmic timepoints
 logtindex_u=np.arange(0,lognt_u,logspace_u) #Logarthmic timepoints
 for logi_u in logtindex_u:
     i_u=int(10**logi_u)
-    plt.plot(xv,y[i_u,:],label=f't={tv[i_u]}')
-    plt.legend()
+    plt.plot(xv-epsilon,1+epsilon-y[i_u,:],label=f't={tv[i_u]}')
+    plt.legend(loc='lower left')
+
+plt.legend(bbox_to_anchor=(1.02, 1))
     
             
     

@@ -59,7 +59,7 @@ xi=np.array([1]) #Define dimensionless and porosity adjusted maximum binding sit
 K=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
 a=np.array([2]) #Define shape paramter for binding site profile
 b=np.array([2]) #Define shape paramter for intersitital porosity profile
-c=np.array([1.5]) #Define shape paramter for traditional proosity profile
+c=np.array([2]) #Define shape paramter for traditional proosity profile
 Kp=np.array([1]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
