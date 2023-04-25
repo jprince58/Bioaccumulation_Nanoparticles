@@ -17,8 +17,8 @@ machine_number=1 #Input the machine you are running this code on
 """
 
 if machine_number == 1: #Code to assign the right export paths for each machine, since each is unique
-   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N8_results\Direct Exports'
-   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N8_results\Internal Exports' 
+   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N10_results\Direct Exports'
+   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N10_results\Internal Exports' 
 
    
 # %% I don't remember what this is for but I'm scared to delete it 
@@ -29,12 +29,12 @@ get_ipython().magic('reset -sf')
 import time
 import os
 import numpy as np
-from N8_RJ import *
-from N8_method_of_lines import *
-from N8_parameter_tester import *
-from N8_parameter_matrix import *
-from N8_report_generator import *
-from N8_csv_generator import *
+from N10_RJ import *
+from N10_method_of_lines import *
+from N10_parameter_tester import *
+from N10_parameter_matrix import *
+from N10_report_generator import *
+from N10_csv_generator import *
 #from N8_linear_fitting import *
 
 # %% Start Timer
@@ -55,7 +55,7 @@ t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([10]) #Final Time
 nx=np.array([100]) #Mesh size
 gamma=np.array([1]) #Define effective diffusivity 
-alpha=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
+alpha=np.array([10]) #Define dimensionless and porosity adjusted binding rate constant
 xi=np.array([1]) #Define dimensionless and porosity adjusted maximum binding site density
 K=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
 a=np.array([2]) #Define shape paramter for binding site profile
@@ -63,7 +63,7 @@ b=np.array([2]) #Define shape paramter for intersitital porosity profile
 c=np.array([1.5]) #Define shape paramter for traditional proosity profile
 eps=np.array([0.2]) #Define dimensionless minimum interstital porosity
 rho=np.array([0]) #Define dimensionless minimum traditional porosity
-Kp=np.array([1]) #Define partition coeffecient
+Kp=np.array([0.75]) #Define partition coeffecient
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 #Calculating the gamma, epsilon and rho corresponding to a certain minimu porosity is done below
@@ -105,7 +105,7 @@ print('Total time is {} sec'.format(total_time))
 #%% To export report, turn on this code block
 #Finish Report
 para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
-report_filename_partial=f'N6_report{new_count_number}-{machine_number}.docx'
+report_filename_partial=f'N10_report{new_count_number}-{machine_number}.docx'
 report_filename_full=os.path.join(direct_export_path,report_filename_partial)
 report.save(report_filename_full)
 
