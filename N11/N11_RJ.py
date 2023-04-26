@@ -4,14 +4,14 @@
 vn_RJ=1.1
 
 import numpy as np
-from N6_BCcalc import *
+from N11_BCcalc import *
 
 def RJ(x,y,p,fit_coeff,t,tmax,kconv):
 #def RJ(x,y,p,t):
     nx=len(x)-1 #Grab the mesh size for position
     ny=len(y)-2 #Grab number of y-points
     dx=1/nx #Calculate the distance between nodes (assumes domain is from 0 to 1)
-    omega=p[0] ##Define effective diffusivity  for this iteration
+    gam=p[0] ##Define effective diffusivity  for this iteration
     mu=p[1] #Define dimensionless and porosity adjusted binding rate constant for this iteration
     nu=p[2] ##Define dimensionless and porosity adjusted maximum binding site density for this iteration
     eps=p[3] #Define dimensionless minimum interstital porosity for this iteration
@@ -28,16 +28,9 @@ def RJ(x,y,p,fit_coeff,t,tmax,kconv):
     for i in index:
         if i==0 :
             l=int(i/2)
-            #Calculate intermediate values because these are getting too long of lines of code
-            intm1=omega*(x[l]**b+eps)/dx**2 
-            intm2=omega/(2*dx)*(b*x[l]**(b-1)-2*c*x[l]**(c-1)*(x[l]**b+eps)/(x[l]**c+rho)) #Calcualte intermediate value 2 
-            intm3=omega*((c*b*x[l]**(c+b-2)+c*(c-1)*x[l]**(c-2)*(x[l]**b+eps))/(x[l]**c+rho)-2*c**2*x[l]**(2*c-2)*(x[l]**b+eps)/(x[l]**c+rho)**2)
-            intm4=mu*(nu*(1-x[l]**a)-y[i+1])
-            intm5=mu*kappa
-            R[i]=intm1*(2*y[i+2]-2*y[i])+intm2*(y[i+2]-y[i-2])-(intm3+intm4)*y[i]+intm5*y[i+1]
-            J[i,i]=-2*intm1-intm3-intm4
-            J[i,i+2]=intm1+intm2
-            J[i,i-2]=intm1-intm2
+            R[i]=2*gam/dx**2*(y[i+2]-y[i])-mu*y[i]*(nu-y[i+1])+mu*kappa*y[i+1]
+            J[i,i]=-2*gam/dx**2-mu*(nu-y[i+1])
+            J[i,i+2]=2*gam/dx**2
             J[i,i+1]=mu*(y[i]+kappa)
         elif i%2==1 :
             l=int((i-1)/2)
@@ -46,22 +39,18 @@ def RJ(x,y,p,fit_coeff,t,tmax,kconv):
             J[i,i-1]=mu*(nu*(1-x[l]**a)-y[i])
         elif i==ny:
             l=int(i/2)
-            #R[i]=y[i]-1-rho
-            R[i]=y[i]-BCcalc(t,fit_coeff,tmax,kconv)/(Kp+kappa/(xi+c))
+            R[i]=y[i]-1
+            #R[i]=y[i]-BCcalc(t,fit_coeff,tmax,kconv)*(1+rho)/Kp
             # test=BCcalc(t,fit_coeff,tmax)+rho
             J[i,i]=1;
         elif i%2==0 and i!=0:
             l=int(i/2)
-            #Calculate intermediate values because these are getting too long of lines of code
-            intm1=omega*(x[l]**b+eps)/dx**2 
-            intm2=omega/(2*dx)*(b*x[l]**(b-1)-2*c*x[l]**(c-1)*(x[l]**b+eps)/(x[l]**c+rho)) #Calcualte intermediate value 2 
-            intm3=omega*((c*b*x[l]**(c+b-2)+c*(c-1)*x[l]**(c-2)*(x[l]**b+eps))/(x[l]**c+rho)-2*c**2*x[l]**(2*c-2)*(x[l]**b+eps)/(x[l]**c+rho)**2)
-            intm4=mu*(nu*(1-x[l]**a)-y[i+1])
-            intm5=mu*kappa
-            R[i]=intm1*(y[i+2]-2*y[i]+y[i-2])+intm2*(y[i+2]-y[i-2])-(intm3+intm4)*y[i]+intm5*y[i+1]
-            J[i,i]=-2*intm1-intm3-intm4
-            J[i,i+2]=intm1+intm2
-            J[i,i-2]=intm1-intm2
+            phi0=np.exp(b*x[l])+rho
+            phi1=b*np.exp(b*x[l])
+            R[i]=gam/dx**2*(y[i+2]-2*y[i]+y[i-2])+gam*phi1/phi0/(2*dx)*(y[i+2]-y[i-2])-y[i]*(mu*(nu*(1-x[l]**a)-y[i+1]))+mu*kappa*y[i+1]
+            J[i,i]=-2*gam/dx**2-mu*(nu*(1-x[l]**a)-y[i+1])
+            J[i,i+2]=gam/dx**2+gam*phi1/phi0/(2*dx)
+            J[i,i-2]=gam/dx**2-gam*phi1/phi0/(2*dx)
             J[i,i+1]=mu*(y[i]+kappa)
         else:
             print('Uh oh')
