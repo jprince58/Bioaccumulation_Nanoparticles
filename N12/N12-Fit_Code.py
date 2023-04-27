@@ -62,7 +62,7 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 #%% Grab Experimental Results to fit to model
-experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_2.csv'
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_bump.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
 # # %% Compare Model to Experimental Data
@@ -71,31 +71,31 @@ experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extr
 # %%Inputs Code Block
 # set parameters including bounds for model; you can also fix parameters (use vary=False)
 params = Parameters()
-params.add('h', value=0.025, vary=False)
+params.add('h', value=0.05/2, vary=False)
 params.add('tol', value=10**(-6), vary=False)
 params.add('t1', value=0, vary=False)
 params.add('t2', value=15, vary=False)
 params.add('nx', value=50, vary=False)
 # params.add('omega', value=0.8, min=0.5, max=1.)
-params.add('omega', value=0.8, vary=False)
-# params.add('mu', value=2.0, min=0.05, max=10.)
-params.add('mu', value=1, vary=False)
-# params.add('nu', value=0.75, min=0.01, max=10.)
-params.add('nu', value=10, vary=False)
-# params.add('phi_min', value=0.02, min=0., max=1)
-params.add('phi_min', value=0.4, vary=False)
-# params.add('phi_max', value=1, min=0.1, max=1)
-params.add('phi_max', value=0.8, vary=False)
-# params.add('kappa', value=0.75, min=0.1, max=10.)
-params.add('kappa', value=0.75, vary=False)
-params.add('a', value=2.25, min=0.1, max=10.) 
-# params.add('a', value=2.25, vary=False)  
-params.add('b', value=.5, min=0, max=20.)
-# params.add('b', value=1, vary=False)
-# params.add('c', value=0.1, min=0, max=1)
-params.add('c', value=0.1, vary=False)
-# params.add('Kp', value=1, min=0.01, max=10.)
-params.add('Kp', value=0.25, vary=False)
+params.add('omega', value=1, vary=False)
+params.add('mu', value=0.11, min=0.01, max=10.)
+# params.add('mu', value=0.11, vary=False)
+params.add('nu', value=9, min=0.01, max=100.)
+# params.add('nu', value=10, vary=False)
+params.add('phi_min', value=0.3, min=0.1, max=1)
+# params.add('phi_min', value=0.3, vary=False)
+params.add('phi_max', value=0.7, min=0.1, max=1)
+# params.add('phi_max', value=0.7, vary=False)
+params.add('kappa', value=0.75, min=0.1, max=10.)
+# params.add('kappa', value=0.75, vary=False)
+params.add('a', value=1.3, min=0.2, max=10.) 
+# params.add('a', value=1.3, vary=False)  
+# params.add('b', value=25, min=0, max=100.)
+params.add('b', value=25, vary=False)
+params.add('c', value=0.4, min=0.01, max=10.)
+# params.add('c', value=0.2, vary=False)
+params.add('Kp', value=5.33, min=0.01, max=10.)
+# params.add('Kp', value=5.33, vary=False)
 params.add('kconv', value=188.8, vary=False)
 
 # fit models
@@ -128,7 +128,7 @@ ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if 
 
 
 #%% Grab Experimental Results to fit to model
-experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_2.csv'
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_bump.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
 # %% Generate Parameter Matrix for Testing
@@ -161,7 +161,7 @@ print('Total time is {} sec'.format(total_time))
 # %% To export report, turn on this code block
 # Finish Report
 para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
-report_filename_partial=f'N6_report{new_count_number}-{machine_number}.docx'
+report_filename_partial=f'N12_report{new_count_number}-{machine_number}.docx'
 report_filename_full=os.path.join(direct_export_path,report_filename_partial)
 report.save(report_filename_full)
 
