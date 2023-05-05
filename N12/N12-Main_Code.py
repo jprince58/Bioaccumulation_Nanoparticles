@@ -51,32 +51,32 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.05/2]) #Define timesteps to test
+h=np.array([0.05*2/3]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([15]) #Final Time
+t2=np.array([20]) #Final Time
 nx=np.array([50]) #Mesh size
-omega=np.array([0.8]) #Define effective diffusivity 
-mu=np.array([0.15]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([0.75]) #Define dimnesionless binding site density difference
-kappa=np.array([0.75]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([1]) #Define shape paramter for binding site profile
-b=np.array([15]) #Define shape paramter for intersitital porosity profile
-c=np.array([0.2]) #Define dimensionless minimum binding site concentration
-phi_min=np.array([0.15]) #Define minimum interstitial porosity
-phi_max=np.array([0.5]) #Define maximum interstitial porosity
+omega=np.array([1]) #Define effective diffusivity 
+mu=np.array([2]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([10,15,20]) #Define dimnesionless binding site density difference
+kappa=np.array([10]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([3]) #Define shape paramter for binding site profile
+b=np.array([20]) #Define shape paramter for intersitital porosity profile
+c=np.array([0.42]) #Define dimensionless minimum binding site concentration
+phi_min=np.array([0.3]) #Define minimum interstitial porosity
+phi_max=np.array([0.8]) #Define maximum interstitial porosity
 rho=np.zeros(len(phi_min)) #initialize rho vector
 eps=np.zeros(len(phi_min)) #initialize epsilon vector
 for i in np.arange(0,len(rho)):
-    rho[i]=1+phi_max[i]/(phi_max[i]-phi_min[i])*(np.exp(b)+1)
+    rho[i]=phi_max
     eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
-Kp=np.array([0.75]) #Define partition coeffecient
+Kp=np.array([1]) #Define partition coeffecient
 kconv=188.8 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 #%% Grab Experimental Results to fit to model
-experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5_incubation_bump.csv'
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5cipro_incubation_bump.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
 # %% Generate Parameter Matrix for Testing

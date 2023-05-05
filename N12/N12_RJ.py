@@ -46,8 +46,8 @@ def RJ(x,y,p,fit_coeff,t,tmax,kconv):
             J[i,i+1]=1
         elif i%2==0 and i!=0:
             l=int(i/2)
-            phi0=rho-np.exp(b*x[l])
-            phi1=-b*np.exp(b*x[l])
+            phi0=rho-eps*(np.exp(b*x[l])-1)
+            phi1=-b*eps*np.exp(b*x[l])
             R[i]=gam/dx**2*(y[i+2]-2*y[i]+y[i-2])+gam*phi1/phi0/(2*dx)*(y[i+2]-y[i-2])-y[i]*(mu*(nu*x[l]**a+beta-y[i+1]))+mu*kappa*y[i+1]
             J[i,i]=-2*gam/dx**2-mu*(nu*x[l]**a+beta-y[i+1])
             J[i,i+2]=gam/dx**2+gam*phi1/phi0/(2*dx)

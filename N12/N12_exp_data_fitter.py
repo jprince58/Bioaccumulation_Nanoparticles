@@ -60,10 +60,12 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
                 ti_old=ti_new
                 t_exp_subset=collated_results[collated_results[:, 0] == ti_old, :] #grab only experimental values at that time-point
                 t_mod_subset=mod_data[mod_data[:, 0] == ti_old, :] #grab model values at this timepoint
+                """
                 if ti_old==14:
                     t_mod_subset=mod_data[71400:71450,:]
                 elif ti_old==28:
                     t_mod_subset=mod_data[142800:142850,:]
+                    """
                 for j in np.arange(0,len(t_exp_subset)):
                     x_inter=t_exp_subset[j,1] #position value which needs its corresponding model value interpolated
                     for k in np.arange(0,len(t_mod_subset)):

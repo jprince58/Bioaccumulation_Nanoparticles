@@ -68,7 +68,7 @@ def parameter_checker(parameter_matrix,ci,fit_coeff,kconv): #unpack paramteres a
             cim[x_i,:]=c[j,:]
             cia[x_i,:]=c[k,:]
             cit[x_i,:]=Kp*c[j,:]+c[k,:]
-            phi=eps*(rho-np.exp(b*x[x_i]))
+            phi=rho-eps*(np.exp(b*x[x_i])-1)
             ctm[x_i,:]=c[j,:]*phi
             cta[x_i,:]=c[k,:]*phi
             ctt[x_i,:]=Kp*ctm[x_i,:]+cta[x_i,:]
