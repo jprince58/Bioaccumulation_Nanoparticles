@@ -36,10 +36,10 @@ def residual_calc(paras):
         rho=np.zeros(len(phi_min)) #initialize rho vector
         eps=np.zeros(len(phi_min)) #initialize beta vector     
         for i in np.arange(0,len(rho)):
-            rho[i]=1+phi_max[i]/(phi_max[i]-phi_min[i])*(np.exp(b)+1)
+            rho[i]=phi_max
             eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
         Kp=np.array([paras['Kp'].value])
-        kconv=np.array([paras['kconv'].value])
+        kconv=np.array([paras['kconv'].value])  
         
     except KeyError:
         h,tol,t1,t2,nx,omega,mu,nu,eps,rho,kappa,a,b,c,Kp,kconv=paras

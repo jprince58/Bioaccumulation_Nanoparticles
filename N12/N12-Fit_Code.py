@@ -41,15 +41,6 @@ from N12_exp_data_fitter import *
 from N12_residual_calc import *
 from lmfit import minimize, Parameters, Parameter, report_fit, Model
 
-#Way to keep iterations from going on forever
-def check(params, iter, resid):
-    if iter>5:
-        x=True
-    else:
-        x=False
-    return x
-
-
 # %% Start Timer
 t_start=time.time()
 
@@ -72,35 +63,39 @@ experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extr
 # set parameters including bounds for model; you can also fix parameters (use vary=False)
 params = Parameters()
 params.add('h', value=0.05/2, vary=False)
-params.add('tol', value=10**(-6), vary=False)
+params.add('tol', value=10**(-8), vary=False)
 params.add('t1', value=0, vary=False)
 params.add('t2', value=15, vary=False)
 params.add('nx', value=50, vary=False)
 # params.add('omega', value=0.8, min=0.5, max=1.)
-params.add('omega', value=1, vary=False)
-params.add('mu', value=2, min=0.01, max=10.)
-# params.add('mu', value=5, vary=False)
-params.add('nu', value=10, min=0.01, max=100.)
-# params.add('nu', value=10, vary=False)
+params.add('omega', value=1., vary=False)
+# params.add('mu', value=0.01, min=0., max=10.)
+params.add('mu', value=0.01, vary=False)
+# params.add('nu', value=10, min=0.01, max=100.)
+params.add('nu', value=25, vary=False)
 # params.add('phi_min', value=0.3, min=0.1, max=1)
-params.add('phi_min', value=0.3, vary=False)
+params.add('phi_min', value=0.25, vary=False)
 # params.add('phi_max', value=0.8, min=0.1, max=1)
 params.add('phi_max', value=0.8, vary=False)
-params.add('kappa', value=0.75, min=0.1, max=10.)
-# params.add('kappa', value=0.75, vary=False)
-# params.add('a', value=1.5, min=0.2, max=50.) 
-params.add('a', value=1.5, vary=False)  
-params.add('b', value=25, min=0, max=100.)
-# params.add('b', value=25, vary=False)
-# params.add('c', value=0.42, min=0.01, max=10.)
-params.add('c', value=0.42, vary=False)
+# params.add('kappa', value=20, min=0.1, max=50.)
+params.add('kappa', value=20, vary=False)
+params.add('a', value=2.5, min=1., max=50.) 
+# params.add('a', value=1.05, vary=False)  
+# params.add('b', value=25, min=0, max=100.)
+params.add('b', value=90, vary=False)
+# params.add('c', value=5.3, min=0.01, max=10.)
+params.add('c', value=5.3, vary=False)
 # params.add('Kp', value=5, min=0.01, max=10.)
-params.add('Kp', value=5.33, vary=False)
+params.add('Kp', value=1, vary=False)
 params.add('kconv', value=188.8, vary=False)
 
 # fit models
 # fit_results = minimize(residual_calc, params, method='leastsq', iter_cb=check(params, iter, resid))  # fitting for model    
-fit_results = minimize(residual_calc, params, method='leastsq')  # fitting for model    
+fit_results = minimize(residual_calc, params, method='lbfgsb')  # fitting for model   
+RSS=fit_results.chisqr 
+p=9 #Number of parameters
+N=227 #Number of data-points used in fit (looked at excel sheet)
+AICc=2*p+N*(np.log(2*3.14*RSS/N)+1)
 
 # %% Grab parameters from model fit
 h=np.array([fit_results.params['h'].value]) #Define timesteps 
@@ -119,7 +114,7 @@ phi_max=np.array([fit_results.params['phi_max'].value])
 rho=np.zeros(len(phi_min)) #initialize rho vector
 eps=np.zeros(len(phi_min)) #initialize beta vector     
 for i in np.arange(0,len(rho)):
-    rho[i]=1+phi_max[i]/(phi_max[i]-phi_min[i])*(np.exp(b)+1)
+    rho[i]=phi_max
     eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
 c=np.array([fit_results.params['c'].value]) #Define shape paramter for traditional proosity profile
 Kp=np.array([fit_results.params['Kp'].value]) #Define partition coeffecient  
@@ -157,10 +152,14 @@ report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_nu
 t_end=time.time()
 total_time=t_end-t_start
 print('Total time is {} sec'.format(total_time))
+print(f'RSS={RSS}')
+print(f'AICc= {AICc}')
 
 # %% To export report, turn on this code block
 # Finish Report
 para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
+para6=report.add_paragraph(f'AICc= {AICc}')
+para6=report.add_paragraph(f'RSS={RSS}')
 report_filename_partial=f'N12_report{new_count_number}-{machine_number}.docx'
 report_filename_full=os.path.join(direct_export_path,report_filename_partial)
 report.save(report_filename_full)

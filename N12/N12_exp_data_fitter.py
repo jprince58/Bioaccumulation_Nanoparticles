@@ -71,6 +71,8 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
                     for k in np.arange(0,len(t_mod_subset)):
                         if x_inter>t_mod_subset[k,1] and x_inter<t_mod_subset[k+1,1]: #check if x-value is greater current model-x and less than next (where to interpolate)
                             collated_results[i+j,3] = t_mod_subset[k,2]+(t_mod_subset[k+1,2]-t_mod_subset[k,2])*(x_inter-t_mod_subset[k,1])/(t_mod_subset[k+1,1]-t_mod_subset[k,1]) #standard interpolation formula
+                        elif x_inter==t_mod_subset[k,1]:
+                            collated_results[i+j,3]=t_mod_subset[k,2]
                         else: pass
         
         # %% Plot Collated results for visualizing "fit"
@@ -88,6 +90,13 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
         plt.legend(loc=[0.75,0],fontsize=7)
         plt.xlim(left=0,right=1.4)
         plt.rcParams['figure.dpi'] = 300
+        res=collated_results[:,2]-collated_results[:,3]
+        RSS=np.nansum(res**2)
+        p=9 #Number of parameters
+        N=227 #Number of data-points used in fit (looked at excel sheet)
+        AICc=2*p+N*(np.log(2*3.14*RSS/N)+1)
+        plt.text(0.05,175,f'AIC={np.round(AICc,2)}')
+        plt.text(0.05,150,f'RSS={np.round(RSS,0)}')
         modelfit_filename_partial=f'Modelfitplot{pc_i}.png'
         modelfit_filename_full=os.path.join(internal_export_path,modelfit_filename_partial)
         plt.savefig(modelfit_filename_full)

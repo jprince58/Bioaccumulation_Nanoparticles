@@ -51,19 +51,19 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.05*2/3]) #Define timesteps to test
+h=np.array([0.05/2]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([20]) #Final Time
+t2=np.array([15]) #Final Time
 nx=np.array([50]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([2]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([10,15,20]) #Define dimnesionless binding site density difference
-kappa=np.array([10]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([3]) #Define shape paramter for binding site profile
-b=np.array([20]) #Define shape paramter for intersitital porosity profile
-c=np.array([0.42]) #Define dimensionless minimum binding site concentration
-phi_min=np.array([0.3]) #Define minimum interstitial porosity
+mu=np.array([0.01]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([25]) #Define dimnesionless binding site density difference
+kappa=np.array([20]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([1.4]) #Define shape paramter for binding site profile
+b=np.array([90]) #Define shape paramter for intersitital porosity profile
+c=np.array([5.3]) #Define dimensionless minimum binding site concentration
+phi_min=np.array([0.25]) #Define minimum interstitial porosity
 phi_max=np.array([0.8]) #Define maximum interstitial porosity
 rho=np.zeros(len(phi_min)) #initialize rho vector
 eps=np.zeros(len(phi_min)) #initialize epsilon vector
