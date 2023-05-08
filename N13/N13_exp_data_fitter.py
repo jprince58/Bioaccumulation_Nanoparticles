@@ -92,7 +92,7 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
         plt.rcParams['figure.dpi'] = 300
         res=collated_results[:,2]-collated_results[:,3]
         RSS=np.nansum(res**2)
-        p=9 #Number of parameters
+        p=6 #Number of parameters
         N=227 #Number of data-points used in fit (looked at excel sheet)
         AICc=2*p+N*(np.log(2*3.14*RSS/N)+1)
         plt.text(0.05,135,f'AIC={np.round(AICc,2)}')

@@ -17,8 +17,8 @@ machine_number=1 #Input the machine you are running this code on
 """
 
 if machine_number == 1: #Code to assign the right export paths for each machine, since each is unique
-   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N12_results\Direct Exports'
-   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N12_results\Internal Exports' 
+   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N13_results\Direct Exports'
+   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N13_results\Internal Exports' 
 
    
 # %% I don't remember what this is for but I'm scared to delete it 
@@ -29,15 +29,15 @@ get_ipython().magic('reset -sf')
 import time
 import os
 import numpy as np
-from N12_RJ import *
-from N12_method_of_lines import *
-from N12_parameter_tester import *
-from N12_parameter_matrix import *
-from N12_report_generator import *
-from N12_csv_generator import *
-from N12_linear_fitting import *
-from N12_experimental_data_extractor import *
-from N12_exp_data_fitter import *
+from N13_RJ import *
+from N13_method_of_lines import *
+from N13_parameter_tester import *
+from N13_parameter_matrix import *
+from N13_report_generator import *
+from N13_csv_generator import *
+from N13_linear_fitting import *
+from N13_experimental_data_extractor import *
+from N13_exp_data_fitter import *
 
 # %% Start Timer
 t_start=time.time()
@@ -57,11 +57,11 @@ t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([20]) #Final Time
 nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([0.20]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([250]) #Define dimnesionless binding site density difference
-kappa=np.array([0.001]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([14]) #Define shape paramter for binding site profile
-b=np.array([12]) #Define shape paramter for intersitital porosity profile
+mu=np.array([0.3]) #Define dimensionless and porosity adjusted binding rate constant
+nu=np.array([150]) #Define dimnesionless binding site density difference
+kappa=np.array([3]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([7.5]) #Define shape paramter for binding site profile
+b=np.array([30]) #Define shape paramter for intersitital porosity profile
 c=np.array([1]) #Define dimensionless minimum binding site concentration
 phi_min=np.array([0.25]) #Define minimum interstitial porosity
 phi_max=np.array([0.8]) #Define maximum interstitial porosity
@@ -69,8 +69,8 @@ rho=np.zeros(len(phi_min)) #initialize rho vector
 eps=np.zeros(len(phi_min)) #initialize epsilon vector
 for i in np.arange(0,len(rho)):
     rho[i]=phi_max
-    # eps[i]=0 #hard-coding in beta equal to zero to simualte no porosity profile
-    eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
+    eps[i]=0 #hard-coding in beta equal to zero to simualte no porosity profile
+    # eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
 Kp=np.array([1]) #Define partition coeffecient
 kconv=140 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)

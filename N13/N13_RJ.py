@@ -4,7 +4,7 @@
 vn_RJ=1.1
 
 import numpy as np
-from N12_BCcalc import *
+from N13_BCcalc import *
 
 def RJ(x,y,p,fit_coeff,t,tmax,kconv):
 #def RJ(x,y,p,t):
@@ -40,19 +40,16 @@ def RJ(x,y,p,fit_coeff,t,tmax,kconv):
         elif i==ny:
             l=int(i/2)
             # R[i]=y[i]-1
-            phi0=rho-eps*(np.exp(b*x[l])-1)
-            R[i]=(Kp*y[i]+y[i+1])-BCcalc(t,fit_coeff,tmax,kconv)/phi0
+            R[i]=Kp*y[i]-BCcalc(t,fit_coeff,tmax,kconv)+y[i+1]
             test=BCcalc(t,fit_coeff,tmax,kconv)
-            J[i,i]=Kp
+            J[i,i]=1;
             J[i,i+1]=1
         elif i%2==0 and i!=0:
             l=int(i/2)
-            phi0=rho-eps*(np.exp(b*x[l])-1)
-            phi1=-b*eps*np.exp(b*x[l])
-            R[i]=gam/dx**2*(y[i+2]-2*y[i]+y[i-2])+gam*phi1/phi0/(2*dx)*(y[i+2]-y[i-2])-y[i]*(mu*(nu*x[l]**a+beta-y[i+1]))+mu*kappa*y[i+1]
+            R[i]=gam/dx**2*(y[i+2]-2*y[i]+y[i-2])-y[i]*(mu*(nu*x[l]**a+beta-y[i+1]))+mu*kappa*y[i+1]
             J[i,i]=-2*gam/dx**2-mu*(nu*x[l]**a+beta-y[i+1])
-            J[i,i+2]=gam/dx**2+gam*phi1/phi0/(2*dx)
-            J[i,i-2]=gam/dx**2-gam*phi1/phi0/(2*dx)
+            J[i,i+2]=gam/dx**2
+            J[i,i-2]=gam/dx**2
             J[i,i+1]=mu*(y[i]+kappa)
         else:
             print('Uh oh')
