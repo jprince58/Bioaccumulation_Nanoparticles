@@ -17,8 +17,8 @@ machine_number=1 #Input the machine you are running this code on
 """
 
 if machine_number == 1: #Code to assign the right export paths for each machine, since each is unique
-   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N12_results\Direct Exports'
-   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N12_results\Internal Exports' 
+   direct_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N14_results\Direct Exports'
+   internal_export_path=r'C:\Users\joshu\Box\Quantum Biofilms\Raw Data\N14_results\Internal Exports' 
 
    
 # %% I don't remember what this is for but I'm scared to delete it 
@@ -29,15 +29,15 @@ get_ipython().magic('reset -sf')
 import time
 import os
 import numpy as np
-from N12_RJ import *
-from N12_method_of_lines import *
-from N12_parameter_tester import *
-from N12_parameter_matrix import *
-from N12_report_generator import *
-from N12_csv_generator import *
-from N12_linear_fitting import *
-from N12_experimental_data_extractor import *
-from N12_exp_data_fitter import *
+from N14_RJ import *
+from N14_method_of_lines import *
+from N14_parameter_tester import *
+from N14_parameter_matrix import *
+from N14_report_generator import *
+from N14_csv_generator import *
+from N14_linear_fitting import *
+from N14_experimental_data_extractor import *
+from N14_exp_data_fitter import *
 
 # %% Start Timer
 t_start=time.time()
@@ -51,34 +51,34 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.05]) #Define timesteps to test
+h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
-t2=np.array([60]) #Final Time
+t2=np.array([20]) #Final Time
 nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([0.01]) #Define dimensionless and porosity adjusted binding rate constant
+mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
 nu=np.array([0]) #Define dimnesionless binding site density difference
-kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([14]) #Define shape paramter for binding site profile
-b=np.array([30]) #Define shape paramter for intersitital porosity profile
-c=np.array([2]) #Define dimensionless minimum binding site concentration
-phi_min=np.array([0.1]) #Define minimum interstitial porosity
-phi_max=np.array([0.12]) #Define maximum interstitial porosity
+kappa=np.array([5]) #Define dimensionless and porosity adjusted equilibrium constant
+a=np.array([7.5]) #Define shape parameter for binding site profile
+b=np.array([30]) #Define shape parameter for intersitital porosity profile
+c=np.array([1]) #Define dimensionless minimum binding site concentration
+phi_min=np.array([0.25]) #Define minimum interstitial porosity
+phi_max=np.array([0.8]) #Define maximum interstitial porosity
 rho=np.zeros(len(phi_min)) #initialize rho vector
 eps=np.zeros(len(phi_min)) #initialize epsilon vector
 for i in np.arange(0,len(rho)):
     rho[i]=phi_max
-    # eps[i]=0 #hard-coding in beta equal to zero to simualte no porosity profile
-    eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
+    eps[i]=0 #hard-coding in beta equal to zero to simualte no porosity profile
+    # eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
 Kp=np.array([1]) #Define partition coeffecient
-kconv=125 #guess a AU to particle conversion factor
+kconv=40 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 #%% Grab Experimental Results to fit to model
-# experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cyt5tob_incubation.csv'
-experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5cipro_incubation_bump.csv'
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cyt5tob_incubation.csv'
+# experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5cipro_incubation_bump.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
 # %% Generate Parameter Matrix for Testing
@@ -89,7 +89,7 @@ experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extr
 #[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested
 
 # %% Compare Model to Experimental Data
-fitting_results=exp_data_fitter(c_set,experimental_results,parameter_combos_count,internal_export_path,kconv,t2)
+fitting_results=exp_data_fitter(c_set,experimental_results,parameter_combos_count,internal_export_path,kconv,t2,direct_export_path,new_count_number,machine_number)
 
 # %% 
 
@@ -112,7 +112,7 @@ print('Total time is {} sec'.format(total_time))
 #%% To export report, turn on this code block
 #Finish Report
 para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
-report_filename_partial=f'N12_report{new_count_number}-{machine_number}.docx'
+report_filename_partial=f'N14_report{new_count_number}-{machine_number}.docx'
 report_filename_full=os.path.join(direct_export_path,report_filename_partial)
 report.save(report_filename_full)
 

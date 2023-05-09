@@ -14,7 +14,7 @@ from matplotlib.animation import FuncAnimation
 import pandas as pd
 
 
-def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,kconv,tmax):
+def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,kconv,tmax,direct_export_path,new_count_number,machine_number):
     
     for pc_i in np.arange(0,parameter_combos_count,1): #Begin for loop to plot the different model paramters tested
     
@@ -24,8 +24,8 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
         t=c_set[pc_i][1] #Grab time-vector for this parameter set for plotting
         
         # %% Convert dimensionless mdoel results inot dimenional model results
-        # to= 20/tmax #guess at dimensionless time [min]
-        to= 30/tmax #guess at dimensionless time [min]
+        # to= 30/tmax #guess at dimensionless time [min]
+        to= 20/tmax #guess at dimensionless time [min]
         t_d=t*to #convert dimensionless time into dimensional time [min]
         ct_d=(kconv/np.amax(ct))*ct #convert dimensionless total concentration to absorbance units
         
@@ -76,6 +76,20 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
                             collated_results[i+j,3]=t_mod_subset[k,2]
                         else: pass
         
+        #Export collated results as .csv file for plotting
+        
+        cm=c_set[pc_i][3] #Grab current Mobile concentration data to plot
+        ca=c_set[pc_i][4] #Grab current Attached concentration data to plot
+        t=c_set[pc_i][1] #Grab time-vector for this parameter set for plotting
+        x=c_set[pc_i][0] #Grab the position-vector for this parameter set for plotting
+        t_oof=np.floor(np.log10(np.abs(t[1]))).astype(int) #order of magninutde of time-step
+        t=np.around(t,-t_oof) #Remove some rounding errors from time data-set
+        x=np.around(x,3) #Remove some rounding errors from position data-set
+        collated_data=pd.DataFrame(data=collated_results) #Create pandas dataframe for bound concentration
+        collated_data_filename_partial=f'bounddata{pc_i}_{new_count_number}-{machine_number}.csv'
+        collated_data_filename_full=os.path.join(direct_export_path,collated_data_filename_partial)
+        collated_data.to_csv(collated_data_filename_full) #Export unbound dataframe as csv
+            
         # %% Plot Collated results for visualizing "fit"
         ti_old=-1
         for i in np.arange(0,len(collated_results)): #loop over all expeirmental values
@@ -93,11 +107,11 @@ def exp_data_fitter(c_set,exp_data,parameter_combos_count,internal_export_path,k
         plt.rcParams['figure.dpi'] = 300
         res=collated_results[:,2]-collated_results[:,3]
         RSS=np.nansum(res**2)
-        p=7 #Number of parameters
+        p=4 #Number of parameters
         N=227 #Number of data-points used in fit (looked at excel sheet)
         AICc=2*p+N*(np.log(2*3.14*RSS/N)+1)
-        plt.text(0.05,135,f'AIC={np.round(AICc,2)}')
-        plt.text(0.05,125,f'RSS={np.round(RSS,0)}')
+        plt.text(0.05,100,f'AIC={np.round(AICc,2)}')
+        plt.text(0.05,90,f'RSS={np.round(RSS,0)}')
         modelfit_filename_partial=f'Modelfitplot{pc_i}.png'
         modelfit_filename_full=os.path.join(internal_export_path,modelfit_filename_partial)
         plt.savefig(modelfit_filename_full)

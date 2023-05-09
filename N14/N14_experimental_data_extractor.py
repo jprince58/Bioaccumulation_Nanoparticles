@@ -53,6 +53,7 @@ def experimental_data_extractor(experimental_data_file):
     #Fit data to polynomial
     fit_res=np.polyfit(fit_data[:,0],fit_data[:,1],6,full=True)
     # fit_res=np.polyfit(fit_data[:,0],fit_data[:,1],2,full=True)
+
     
     #Plot fit to check how good it is
     appender=np.zeros((len(fit_data),1))
@@ -64,10 +65,10 @@ def experimental_data_extractor(experimental_data_file):
         # fit_data[i,2]=fit_coeff[0]*t**2+fit_coeff[1]*t**1+fit_coeff[2]*t**0
 
         
-    # plt.plot(fit_data[:,0],fit_data[:,1],label='Literature Values')   
-    # plt.plot(fit_data[:,0],fit_data[:,2],label='Fit Values')  
-    # plt.legend()
-    # plt.pause(1)
+    plt.plot(fit_data[:,0],fit_data[:,1],label='Literature Values')   
+    plt.plot(fit_data[:,0],fit_data[:,2],label='Fit Values')  
+    plt.legend()
+    plt.pause(1)
     
     return [data,fit_coeff]
 
