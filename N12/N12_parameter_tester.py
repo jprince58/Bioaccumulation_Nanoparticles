@@ -59,6 +59,7 @@ def parameter_checker(parameter_matrix,ci,fit_coeff,kconv): #unpack paramteres a
         xindex=np.arange(0,nx+1)
         yss_guess=np.zeros(2*nx+2)
         
+        
         #Define porosity profile for total voluem concentrations
         
         #Translate results into better defined matrix
