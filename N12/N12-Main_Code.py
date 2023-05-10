@@ -62,7 +62,7 @@ nu=np.array([0]) #Define dimnesionless binding site density difference
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
 a=np.array([14]) #Define shape paramter for binding site profile
 b=np.array([30]) #Define shape paramter for intersitital porosity profile
-c=np.array([2]) #Define dimensionless minimum binding site concentration
+c=np.array([2.0]) #Define dimensionless minimum binding site concentration
 phi_min=np.array([0.1]) #Define minimum interstitial porosity
 phi_max=np.array([0.12]) #Define maximum interstitial porosity
 rho=np.zeros(len(phi_min)) #initialize rho vector
@@ -72,7 +72,7 @@ for i in np.arange(0,len(rho)):
     # eps[i]=0 #hard-coding in beta equal to zero to simualte no porosity profile
     eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
 Kp=np.array([1]) #Define partition coeffecient
-kconv=125 #guess a AU to particle conversion factor
+kconv=140 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
@@ -89,7 +89,7 @@ experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extr
 #[c_set,vn_parameter_checker,vn_method_of_lines,vn_RJ] = parameter_checker(parameter_matrix,ci) #output the set of concentration over time and space results for each set of parameters tested
 
 # %% Compare Model to Experimental Data
-fitting_results=exp_data_fitter(c_set,experimental_results,parameter_combos_count,internal_export_path,kconv,t2)
+fitting_results=exp_data_fitter(c_set,experimental_results,parameter_combos_count,internal_export_path,kconv,t2,direct_export_path,new_count_number,machine_number)
 
 # %% 
 

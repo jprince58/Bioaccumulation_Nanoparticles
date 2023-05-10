@@ -51,13 +51,13 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.01]) #Define timesteps to test
+h=np.array([0.01*2/3]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([20]) #Final Time
 nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
-mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
+mu=np.array([0.05]) #Define dimensionless and porosity adjusted binding rate constant
 nu=np.array([0]) #Define dimnesionless binding site density difference
 kappa=np.array([5]) #Define dimensionless and porosity adjusted equilibrium constant
 a=np.array([7.5]) #Define shape parameter for binding site profile
@@ -72,13 +72,13 @@ for i in np.arange(0,len(rho)):
     eps[i]=0 #hard-coding in beta equal to zero to simualte no porosity profile
     # eps[i]=(phi_max[i]-phi_min[i])/(np.exp(b)+1)
 Kp=np.array([1]) #Define partition coeffecient
-kconv=40 #guess a AU to particle conversion factor
+kconv=130 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
 
 
 #%% Grab Experimental Results to fit to model
-experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cyt5tob_incubation.csv'
-# experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5cipro_incubation_bump.csv'
+# experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cyt5tob_incubation.csv'
+experimental_data_file=r'C:\Users\joshu\Box\Quantum Biofilms\Processed Data\Extracted data from literature\tseng_fits_Fig2B_Cy5cipro_incubation_bump.csv'
 [experimental_results,fit_coeff] = experimental_data_extractor(experimental_data_file)
 
 # %% Generate Parameter Matrix for Testing
