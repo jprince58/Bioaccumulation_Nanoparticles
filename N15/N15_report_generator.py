@@ -402,62 +402,62 @@ def plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_numbe
         
         
         # %%Steadty-state Concentration of mobile nanoparticle
-        plt.figure(9*pc_i+6)
-        plt.plot(x,cm_ss)
-        plt.xlim(left=0,right=1)
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        plt.ylim(bottom=0)
-        plt.xlabel('Position',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Mobile SS Dimensionless Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        mobile_ss_filename_partial=f'Mobile SSplot{pc_i}.png'
-        mobile_ss_filename_full=os.path.join(internal_export_path,mobile_ss_filename_partial)
-        plt.savefig(mobile_ss_filename_full)
-        plt.close()
+        # plt.figure(9*pc_i+6)
+        # plt.plot(x,cm_ss)
+        # plt.xlim(left=0,right=1)
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # plt.ylim(bottom=0)
+        # plt.xlabel('Position',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Mobile SS Dimensionless Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # mobile_ss_filename_partial=f'Mobile SSplot{pc_i}.png'
+        # mobile_ss_filename_full=os.path.join(internal_export_path,mobile_ss_filename_partial)
+        # plt.savefig(mobile_ss_filename_full)
+        # plt.close()
         
-        # %%Steadty-state Concentration of attached nanoparticle
-        plt.figure(9*pc_i+7)
-        plt.plot(x,ca_ss)
-        plt.xlim(left=0,right=1)
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        plt.ylim(bottom=0)
-        plt.xlabel('Position',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Attached SS Dimensionless Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        attached_ss_filename_partial=f'Attached SSplot{pc_i}.png'
-        attached_ss_filename_full=os.path.join(internal_export_path,attached_ss_filename_partial)
-        plt.savefig(attached_ss_filename_full)
-        plt.close()
+        # # %%Steadty-state Concentration of attached nanoparticle
+        # plt.figure(9*pc_i+7)
+        # plt.plot(x,ca_ss)
+        # plt.xlim(left=0,right=1)
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # plt.ylim(bottom=0)
+        # plt.xlabel('Position',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Attached SS Dimensionless Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # attached_ss_filename_partial=f'Attached SSplot{pc_i}.png'
+        # attached_ss_filename_full=os.path.join(internal_export_path,attached_ss_filename_partial)
+        # plt.savefig(attached_ss_filename_full)
+        # plt.close()
         
-        pics_paragraph4=report.add_paragraph()
-        pic7=pics_paragraph4.add_run()
-        pic7.add_picture(mobile_ss_filename_full, width=docx.shared.Inches(3))
-        pic8=pics_paragraph4.add_run()
-        pic8.add_picture(attached_ss_filename_full, width=docx.shared.Inches(3))
+        # pics_paragraph4=report.add_paragraph()
+        # pic7=pics_paragraph4.add_run()
+        # pic7.add_picture(mobile_ss_filename_full, width=docx.shared.Inches(3))
+        # pic8=pics_paragraph4.add_run()
+        # pic8.add_picture(attached_ss_filename_full, width=docx.shared.Inches(3))
         
-        # %%Steadty-state Concentration of total nanoparticles
-        plt.figure(9*pc_i+8)
-        plt.plot(x,ct_ss)
-        plt.xlim(left=0,right=1)
-        #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
-        plt.ylim(bottom=0)
-        plt.xlabel('Position',fontsize=14)
-        plt.ylabel('Dimensionless Concentration',fontsize=14)
-        plt.title('Total SS Dimensionless Concentration plot',fontsize=16)
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-        total_ss_filename_partial=f'total SSplot{pc_i}.png'
-        total_ss_filename_full=os.path.join(internal_export_path,total_ss_filename_partial)
-        plt.savefig(total_ss_filename_full)
-        plt.close()
+        # # %%Steadty-state Concentration of total nanoparticles
+        # plt.figure(9*pc_i+8)
+        # plt.plot(x,ct_ss)
+        # plt.xlim(left=0,right=1)
+        # #plt.xlim(left=0,right=0.0005) #Manual Override of automatic x-axis limits
+        # plt.ylim(bottom=0)
+        # plt.xlabel('Position',fontsize=14)
+        # plt.ylabel('Dimensionless Concentration',fontsize=14)
+        # plt.title('Total SS Dimensionless Concentration plot',fontsize=16)
+        # plt.xticks(fontsize=12)
+        # plt.yticks(fontsize=12)
+        # total_ss_filename_partial=f'total SSplot{pc_i}.png'
+        # total_ss_filename_full=os.path.join(internal_export_path,total_ss_filename_partial)
+        # plt.savefig(total_ss_filename_full)
+        # plt.close()
         
-        pics_paragraph5=report.add_paragraph()
-        pic9=pics_paragraph5.add_run()
-        pic9.add_picture(total_ss_filename_full, width=docx.shared.Inches(3))
+        # pics_paragraph5=report.add_paragraph()
+        # pic9=pics_paragraph5.add_run()
+        # pic9.add_picture(total_ss_filename_full, width=docx.shared.Inches(3))
         
         # %% Model fit Plot
         # pics_paragraph6=report.add_paragraph()

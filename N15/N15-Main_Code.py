@@ -58,24 +58,26 @@ t2=np.array([15]) #Final Time
 nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
 mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([0]) #Define dimnesionless binding site density differsence
+nu=np.array([0.1,1,5,10,50]) #Define dimnesionless binding site density differsence
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([5]) #Define shape paramter for binding site profile
-b=np.array([5]) #Define shape paramter for intersitital porosity profile
-c=np.array([1,2,5,10,20,50]) #Define dimensionless minimum binding site concentration
-phi_min=np.array([0.8]) #Define minimum interstitial porosity
-phi_max=np.array([0.8]) #Define intersitial porosity at substratum
+a=np.array([0.01,0.1,1,5,10,50]) #Define shape paramter for binding site profile
+b=np.array([1,5,10,50]) #Define shape paramter for intersitital porosity profile
+c=np.array([1]) #Define dimensionless minimum binding site concentration
+phi_min=np.array([0.1,0.3,0.5,0.7,0.9]) #Define minimum interstitial porosity
+phi_max=np.array([0.5]) #Define intersitial porosity at substratum
 rho=phi_max #initialize rho vector
 # rho=phi_min #initialize rho vector
 # eps=np.zeros(len(phi_max)) #initialize epsilon vector
 # eps=np.zeros(len(phi_min)) #initialize epsilon vector
-eps=np.zeros(len(b)) #initialize epsilon vector
+# eps=np.zeros(len(b)) #initialize epsilon vector
+eps=np.zeros(len(b)*len(phi_min)) #initialize epsilon vector
 # for i in np.arange(0,len(phi_max)):
 #     eps[i]=(phi_max[i]-phi_min)/(np.exp(b)-1)
 # for i in np.arange(0,len(phi_min)):
 #     eps[i]=(phi_max-phi_min[i])/(np.exp(b)-1)
-for i in np.arange(0,len(b)):
-    eps[i]=(phi_max-phi_min)/(np.exp(b[i])-1)
+for i in np.arange(0,len(phi_min)):
+    for j in np.arange(0,len(b)):
+        eps[i*len(b)+j]=(phi_max-phi_min[i])/(np.exp(b[j])-1)
 Kp=np.array([1]) #Define partition coeffecient
 kconv=140 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)

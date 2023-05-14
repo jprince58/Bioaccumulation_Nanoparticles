@@ -87,12 +87,12 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
         print('you were bamboozled on ss calc {} many times'.format(whoops2))
         
         # #Unpack SS profile and pass along to c_set
-        cim_ss=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
-        cia_ss=np.zeros((nx+1,nt))
-        cit_ss=np.zeros((nx+1,nt))
-        ctm_ss=np.zeros((nx+1,nt)) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
-        cta_ss=np.zeros((nx+1,nt))
-        ctt_ss=np.zeros((nx+1,nt))
+        cim_ss=np.zeros(nx+1) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
+        cia_ss=np.zeros(nx+1)
+        cit_ss=np.zeros(nx+1)
+        ctm_ss=np.zeros(nx+1) #Initalize new concentration array where bound and unbound NP concentrations are "unpacked" such that they occupy two different matrices in the same 3-D array 
+        cta_ss=np.zeros(nx+1)
+        ctt_ss=np.zeros(nx+1)
         
         
         for x_i in xindex:
@@ -105,9 +105,9 @@ def parameter_checker(parameter_matrix,ci): #unpack paramteres and test
                 cia_ss[x_i]=css[k]
                 cit_ss[x_i]=Kp*css[j]+css[k]
                 phi=rho-eps*(np.exp(b*x[x_i])-1)
-                ctm_ss[x_i,:]=css[j]*phi
-                cta_ss[x_i,:]=css[k]*phi
-                ctt_ss[x_i,:]=Kp*ctm_ss[x_i,:]+cta_ss[x_i,:]
+                ctm_ss[x_i]=css[j]*phi
+                cta_ss[x_i]=css[k]*phi
+                ctt_ss[x_i]=Kp*ctm_ss[x_i]+cta_ss[x_i]
                 
         c_set[i][9]=ctm_ss #Pass along steady-state mobile nanoparticle concentration
         c_set[i][10]=cta_ss #Pass along steady-state attached nanoparticle concentration

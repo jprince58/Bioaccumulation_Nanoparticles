@@ -19,7 +19,7 @@ def csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_pa
         x=np.around(x,3) #Remove some rounding errors from position data-set
         ca_data=pd.DataFrame(data=ca, index=x, columns=t) #Create pandas dataframe for bound concentration
         cm_data=pd.DataFrame(data=cm, index=x, columns=t) #Create pandas dataframe for unbound concentration
-        ct_data=pd.DataFrame(data=ct, index=x, columns=t) #Create pandas dataframe for unbound concentration
+        ct_data=pd.DataFrame(data=ct, index=x) #Create pandas dataframe for unbound concentration
         ca_data_filename_partial=f'bounddata{pc_i}_{new_count_number}-{machine_number}.csv'
         ca_data_filename_full=os.path.join(direct_export_path,ca_data_filename_partial)
         cm_data_filename_partial=f'unbounddata{pc_i}_{new_count_number}-{machine_number}.csv'
@@ -29,6 +29,12 @@ def csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_pa
         ca_data.to_csv(ca_data_filename_full) #Export bound dataframe as csv
         cm_data.to_csv(cm_data_filename_full) #Export unbound dataframe as csv
         ct_data.to_csv(ct_data_filename_full) #Export unbound dataframe as csv
+        
+        #Export Parameter Conditions
+        params=pd.DataFrame(data=parameter_matrix[pc_i,:]) #Create pandas dataframe for bound concentration
+        params_filename_partial=f'params{pc_i}_{new_count_number}-{machine_number}.csv'
+        params_filename_full=os.path.join(direct_export_path,params_filename_partial)
+        params.to_csv(params_filename_full) #Export unbound dataframe as csv
 
     return vn_csv_generator
 
