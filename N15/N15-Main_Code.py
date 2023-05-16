@@ -51,33 +51,39 @@ counter_file.write(new_count_number)
 counter_file.close()
 
 # %%Inputs Code Block
-h=np.array([0.05/2]) #Define timesteps to test
+h=np.array([0.01]) #Define timesteps to test
 tol=np.array([10**(-8)])  #Define the tolerance the code will run with when running Newton-Rhapson
 t1=np.array([0]) #Define initialtime vector of values to test
 t2=np.array([15]) #Final Time
 nx=np.array([100]) #Mesh size
 omega=np.array([1]) #Define effective diffusivity 
 mu=np.array([1]) #Define dimensionless and porosity adjusted binding rate constant
-nu=np.array([0.1,1,5,10,50]) #Define dimnesionless binding site density differsence
+nu=np.array([-2]) #Define dimnesionless binding site density differsence
+# nu=np.linspace(-10,100,10) #Define dimnesionless binding site density differsence
 kappa=np.array([1]) #Define dimensionless and porosity adjusted equilibrium constant
-a=np.array([0.01,0.1,1,5,10,50]) #Define shape paramter for binding site profile
-b=np.array([1,5,10,50]) #Define shape paramter for intersitital porosity profile
-c=np.array([1]) #Define dimensionless minimum binding site concentration
-phi_min=np.array([0.1,0.3,0.5,0.7,0.9]) #Define minimum interstitial porosity
+a=np.array([3]) #Define shape paramter for binding site profile
+# a=np.logspace(-2,np.log10(50),10) #Define dimnesionless binding site density differsence
+b=np.array([1,2,5,10,20,50]) #Define shape paramter for intersitital porosity profile
+# b=np.arange(10) #Define dimnesionless binding site density differsence
+c=np.array([5]) #Define dimensionless minimum binding site concentration
+phi_min=np.array([0.7]) #Define minimum interstitial porosity
+# phi_min=np.arange(0.01,0.99,0.01) #Define minimum interstitial porosity
 phi_max=np.array([0.5]) #Define intersitial porosity at substratum
 rho=phi_max #initialize rho vector
 # rho=phi_min #initialize rho vector
 # eps=np.zeros(len(phi_max)) #initialize epsilon vector
 # eps=np.zeros(len(phi_min)) #initialize epsilon vector
-# eps=np.zeros(len(b)) #initialize epsilon vector
-eps=np.zeros(len(b)*len(phi_min)) #initialize epsilon vector
+eps=np.zeros(len(b)) #initialize epsilon vector
+# eps=np.zeros(len(b)*len(phi_min)) #initialize epsilon vector
 # for i in np.arange(0,len(phi_max)):
 #     eps[i]=(phi_max[i]-phi_min)/(np.exp(b)-1)
 # for i in np.arange(0,len(phi_min)):
 #     eps[i]=(phi_max-phi_min[i])/(np.exp(b)-1)
-for i in np.arange(0,len(phi_min)):
-    for j in np.arange(0,len(b)):
-        eps[i*len(b)+j]=(phi_max-phi_min[i])/(np.exp(b[j])-1)
+for i in np.arange(0,len(b)):
+    eps[i]=(phi_max-phi_min)/(np.exp(b[i])-1)
+# for i in np.arange(0,len(phi_min)):
+#     for j in np.arange(0,len(b)):
+#         eps[i*len(b)+j]=(phi_max-phi_min[i])/(np.exp(b[j])-1)
 Kp=np.array([1]) #Define partition coeffecient
 kconv=140 #guess a AU to particle conversion factor
 ci=10**(-10) #Define the inital concentration in the biofilm (Can't be zero, if one wants to be zero, set it to a very small number instead)
@@ -105,7 +111,7 @@ vn_csv_generator = csv_generator(c_set,parameter_combos_count,parameter_matrix,d
 #[perc_acc_matrix,vn_linear_fitting]=linear_fit(c_set,parameter_combos_count,parameter_matrix,internal_export_path)
 
 # %% Report Generator: Exports Plots as Word Document to Seperate Directory (see file N15_report_generator.py)
-#report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,perc_acc_matrix,vn_linear_fitting,machine_number,internal_export_path)
+# report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,perc_acc_matrix,vn_linear_fitting,machine_number,internal_export_path)
 report=plot_generator(c_set,parameter_combos_count,parameter_matrix,new_count_number,vn_N6,vn_Main_Code,vn_parameter_matrix_generator,vn_parameter_checker,vn_csv_generator,vn_method_of_lines,vn_RJ,machine_number,internal_export_path,rho,eps)
 
 # %% Stop Timer
@@ -115,7 +121,7 @@ total_time=t_end-t_start
 print('Total time is {} sec'.format(total_time))
 
 #%% To export report, turn on this code block
-#Finish Report
+# Finish Report
 para5=report.add_paragraph(f'Time to Run (sec): {total_time}     ')
 report_filename_partial=f'N15_report{new_count_number}-{machine_number}.docx'
 report_filename_full=os.path.join(direct_export_path,report_filename_partial)

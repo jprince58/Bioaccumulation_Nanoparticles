@@ -26,8 +26,8 @@ def csv_generator(c_set,parameter_combos_count,parameter_matrix,direct_export_pa
         cm_data_filename_full=os.path.join(direct_export_path,cm_data_filename_partial)
         ct_data_filename_partial=f'totaldata{pc_i}_{new_count_number}-{machine_number}.csv'
         ct_data_filename_full=os.path.join(direct_export_path,ct_data_filename_partial)
-        ca_data.to_csv(ca_data_filename_full) #Export bound dataframe as csv
-        cm_data.to_csv(cm_data_filename_full) #Export unbound dataframe as csv
+        # ca_data.to_csv(ca_data_filename_full) #Export bound dataframe as csv
+        # cm_data.to_csv(cm_data_filename_full) #Export unbound dataframe as csv
         ct_data.to_csv(ct_data_filename_full) #Export unbound dataframe as csv
         
         #Export Parameter Conditions
